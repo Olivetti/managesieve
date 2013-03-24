@@ -344,6 +344,9 @@ def main():
         parser.error("Argument 'server' missing.")
     server = args[0]
 
+    if not (1 <= options.port <= 65535):
+        parser.error("The TCP port number must be between 1 and 65535")
+
     if options.verbose:
         level = managesieve.INFO
         if options.verbose > 1:

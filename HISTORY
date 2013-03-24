@@ -4,8 +4,8 @@ Version XXX by Hartmut Goebel <h.goebel at crazy-compilers.com>
   - Changed default port for the MANAGESIEVE protocol to 4190 as
     proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
     the patch.
-  - Added option --port, thanks to Damien Aumaitre submitting for the
-    patch.
+  - Added option --port. Thanks to Damien Aumaitre submitting for the
+    patch and to Guido Berhoerster for an enhancement.
   - Added option --verbose for controling debug output in managesieve.
     May be given several times to increase verbosity.
 
