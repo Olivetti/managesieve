@@ -13,3 +13,9 @@ test_sievelib.py
 ----------------
 - authenticate/login
 - capability
+
+..
+  Local Variables:
+  mode: rst
+  ispell-local-dictionary: "american"
+  End:

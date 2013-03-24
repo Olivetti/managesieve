@@ -84,3 +84,9 @@ Version 0.1 by Ulrich Eck <ueck at net-labs.de>
 --------------------------------------------------------------------
 - initial release of Sieve.py by Ulrich Eck as part of 'ImapClient'
   (see http://www.zope.org/Members/jack-e/ImapClient), a Zope product.
+
+..
+  Local Variables:
+  mode: rst
+  ispell-local-dictionary: "american"
+  End:

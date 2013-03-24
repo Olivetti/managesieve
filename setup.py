@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- ispell-local-dictionary: "american" -*-
 
 """Setup script for the managesieve"""
 

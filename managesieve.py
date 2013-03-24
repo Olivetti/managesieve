@@ -1,3 +1,4 @@
+# -*- ispell-local-dictionary: "american" -*-
 """Sieve management client module
 
 A Protocol for Remotely Managing Sieve Scripts, RFC 5804
