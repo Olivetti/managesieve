@@ -331,7 +331,7 @@ def main():
     parser.add_option('--use-tls', '--tls', action="store_true",
                       help="Switch to TLS if server supports it.")
     parser.add_option('--port', type="int", default=managesieve.SIEVE_PORT,
-                      help="port number to connect to (default: %default)")
+                      help="The TCP port number to connect to (default: %default)")
     parser.add_option('-v', '--verbose', action='count', default=0,
                       help='Be verbose. May be given several times to increase verbosity')
 
