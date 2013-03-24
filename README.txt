@@ -9,7 +9,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 -------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.4.2
+:Version: 0.5
 :Copyright: GNU Public License v3 (GPLv3)
 :Homepage: http://packages.python.org/managesieve
 

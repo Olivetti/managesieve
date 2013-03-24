@@ -40,7 +40,7 @@ class MyBDist_RPM(bdist_rpm):
 
 
 setup (name = "managesieve",
-       version = "0.4.2",
+       version = "0.5",
        description = description,
        long_description = open('README.txt').read().strip(),
        author = "Hartmut Goebel",
