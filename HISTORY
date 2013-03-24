@@ -1,3 +1,21 @@
+Version 0.5 by Hartmut Goebel <h.goebel at crazy-compilers.com>
+--------------------------------------------------------------------
+:sieveshell:
+  - Changed default port for the MANAGESIEVE protocol to 4190 as
+    proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
+    the patch.
+  - Added option ``--port``. Thanks to Damien Aumaitre for submitting
+    the patch and to Guido Berhoerster for an enhancement.
+  - Added option ``--verbose`` for controlling debug output in
+    managesieve. May be given several times to increase verbosity.
+
+:managesieve:
+  - Switched to Python standard logging system.
+    This introduces a minor interface change: MANAGESIEVE.debug and
+    global Debug are gone. See source for information about debugging
+    log levels.
+
+
 Version 0.4.2 by Hartmut Goebel <h.goebel at crazy-compilers.com>
 --------------------------------------------------------------------
 :managesieve:
@@ -66,3 +84,9 @@ Version 0.1 by Ulrich Eck <ueck at net-labs.de>
 --------------------------------------------------------------------
 - initial release of Sieve.py by Ulrich Eck as part of 'ImapClient'
   (see http://www.zope.org/Members/jack-e/ImapClient), a Zope product.
+
+..
+  Local Variables:
+  mode: rst
+  ispell-local-dictionary: "american"
+  End:

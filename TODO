@@ -1,6 +1,6 @@
 sieveshell
 ----------
-- add option 'debuglevel'
+- escape sieve-names instead of just dumb quoting
 
 managesievelib
 ---------------
@@ -13,3 +13,9 @@ test_sievelib.py
 ----------------
 - authenticate/login
 - capability
+
+..
+  Local Variables:
+  mode: rst
+  ispell-local-dictionary: "american"
+  End:
