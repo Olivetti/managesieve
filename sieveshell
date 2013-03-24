@@ -38,7 +38,10 @@ __license__ = "GNU General Public License, version 3"
 import sys, getpass, inspect, managesieve, os
 sieve = None
 
-SUPPRESS = '--suppress--' # token for suppressing 'OK' after cmd execution
+class SUPPRESS:
+    "token for suppressing 'OK' after cmd execution"
+    pass
+
 
 ### the order of functions determines the order for 'help' ###
 
@@ -262,7 +265,7 @@ def shell(auth, user=None, passwd=None, realm=None,
                 assert result != None
                 if result == 'OK':
                     print result
-                elif result == SUPPRESS:
+                elif result is SUPPRESS:
                     # suppress 'OK' for some commands (list, get)
                     pass
                 else:
