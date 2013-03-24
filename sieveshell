@@ -29,10 +29,10 @@ The following commands are recognized:
   quit             - quit
 """
 
-__version__ = "0.4"
+__version__ = "0.5"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__copyright__ = "Copyright (C) 2003-2011 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__license__ = "GPL"
+__copyright__ = "Copyright (C) 2003-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__license__ = "GNU General Public License, version 3"
 
 
 import sys, getpass, inspect, managesieve, os

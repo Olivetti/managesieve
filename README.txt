@@ -9,9 +9,10 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 -------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.4.2
+:Version: 0.5
 :Copyright: GNU Public License v3 (GPLv3)
 :Homepage: http://packages.python.org/managesieve
+:Development: https://gitorious.org/managesieve/managesieve
 
 Sieve scripts allow users to filter incoming email on the mail server.
 The ManageSieve protocol allows managing Sieve scripts on a remote
@@ -25,32 +26,28 @@ This module allows accessing a Sieve-Server for managing Sieve scripts
 there. It is accompanied by a simple yet functional user application
 'sieveshell'.
 
+Changes since 0.4.2
+~~~~~~~~~~~~~~~~~~~~~
+:sieveshell:
+  - Changed default port for the MANAGESIEVE protocol to 4190 as
+    proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
+    the patch.
+  - Added option ``--port``. Thanks to Damien Aumaitre for submitting
+    the patch and to Guido Berhoerster for an enhancement.
+  - Added option ``--verbose`` for controlling debug output in
+    managesieve. May be given several times to increase verbosity.
+
+:managesieve:
+  - Switched to Python standard logging system.
+    This introduces a minor interface change: MANAGESIEVE.debug and
+    global Debug are gone. See source for information about debugging
+    log levels.
+
 Changes since 0.4
 ~~~~~~~~~~~~~~~~~~~~~
   - fixed short read (thanks to paurkedal for submitting the patch)
   - Use ssl.wrap_socket() instead of deprecated socket.ssl().
     Thanks to Guido Berhoerster for submitting the patch.
-
-Changes since 0.3
-~~~~~~~~~~~~~~~~~~~~~
-:managesieve:
-  - now works with Python 2.3 and later
-  - added support for TLS (STARTTLS), special thanks to Gregory Boyce
-    for fixing some corner cases here
-  - added support for PLAIN authentication
-  - use optparse if available instead of optik.
-  - API change: login() no longer uses the LOGIN authentication
-    mechanism, but has become a convenience function. It uses the best
-    mechanism available for authenticating the user.
-  - Several Bugfixes, see HISTORY for details.
-
-  Thanks to Tomas 'Skitta' Lindroos, Lorenzo Boccaccia, Alain Spineux,
-  darkness and Gregory Boyce for sending patches.
-
-:sieveshell:
-  - added support for different authentication mechanisms
-  - added option --start-tls
-  - several other enhancements and bugfixes
 
 
 Requirements and Installation
@@ -158,16 +155,17 @@ Not yet implemented
 - sieve-names are only quoted dump (put into quotes, but no escapes yet).
 
 
-Copyright/License
+Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Copyright (C) 2003-2011 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+Copyright (C) 2003-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 License: Python Software Foundation License
          http://www.opensource.org/licenses/PythonSoftFoundation.html
 
-License for 'sieveshell' and test suite: GPL
-	http://www.opensource.org/licenses/gpl-license.php
+License for 'sieveshell' and test suite: GPL v3
+        http://opensource.org/licenses/GPL-3.0
+
 
 Credits
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

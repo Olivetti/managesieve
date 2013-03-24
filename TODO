@@ -1,6 +1,6 @@
 sieveshell
 ----------
-- add option 'debuglevel'
+- escape sieve-names instead of just dumb quoting
 
 managesievelib
 ---------------

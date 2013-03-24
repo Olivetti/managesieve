@@ -16,9 +16,14 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Copyright: GNU Public License v3 (GPLv3)
+:License: `Python Software Foundation License`__ for the module,
+          `GPL v3`__ for `sieveshell` and test suite.
 :Homepage: http://packages.python.org/managesieve
 :Download: http://pypi.python.org/pypi/managesieve
+:Development: https://gitorious.org/managesieve/managesieve
+
+__ http://www.opensource.org/licenses/PythonSoftFoundation.html
+__ http://opensource.org/licenses/GPL-3.0
 
 python-managesieve is a pure `Python <http://www.python.org/>`_ module
 implementing the ManageSieve client protocol. It also includes an user

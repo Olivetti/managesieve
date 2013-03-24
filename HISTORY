@@ -1,18 +1,18 @@
-Version XXX by Hartmut Goebel <h.goebel at crazy-compilers.com>
+Version 0.5 by Hartmut Goebel <h.goebel at crazy-compilers.com>
 --------------------------------------------------------------------
 :sieveshell:
   - Changed default port for the MANAGESIEVE protocol to 4190 as
     proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
     the patch.
-  - Added option --port. Thanks to Damien Aumaitre submitting for the
-    patch and to Guido Berhoerster for an enhancement.
-  - Added option --verbose for controling debug output in managesieve.
-    May be given several times to increase verbosity.
+  - Added option ``--port``. Thanks to Damien Aumaitre for submitting
+    the patch and to Guido Berhoerster for an enhancement.
+  - Added option ``--verbose`` for controlling debug output in
+    managesieve. May be given several times to increase verbosity.
 
 :managesieve:
   - Switched to Python standard logging system.
     This introduces a minor interface change: MANAGESIEVE.debug and
-    global Debug are gone. See source for information about debuging
+    global Debug are gone. See source for information about debugging
     log levels.
 
 
