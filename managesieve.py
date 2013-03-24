@@ -239,7 +239,7 @@ class MANAGESIEVE:
 
     def __getattr__(self, attr):
         #    Allow UPPERCASE variants of MANAGESIEVE command methods.
-        if commands.has_key(attr):
+        if attr in commands:
             return getattr(self, attr.lower())
         raise AttributeError("Unknown MANAGESIEVE command: '%s'" % attr)
 

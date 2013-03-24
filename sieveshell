@@ -50,9 +50,9 @@ def cmd_help(cmd=None):
 help <command>   - help on command"""
     ## output order is the same as the sourcecode order
     if cmd:
-        if __command_map.has_key(cmd):
+        if cmd in __command_map:
             cmd = __command_map[cmd]
-        if __commands.has_key('cmd_%s' % cmd):
+        if 'cmd_%s' % cmd in __commands:
             print __commands['cmd_%s' % cmd].__doc__
         else:
             print 'Unknown command', repr(cmd)
