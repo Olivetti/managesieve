@@ -19,6 +19,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 :Copyright: GNU Public License v3 (GPLv3)
 :Homepage: http://packages.python.org/managesieve
 :Download: http://pypi.python.org/pypi/managesieve
+:Development: https://gitorious.org/managesieve/managesieve
 
 python-managesieve is a pure `Python <http://www.python.org/>`_ module
 implementing the ManageSieve client protocol. It also includes an user

@@ -12,6 +12,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 :Version: 0.5
 :Copyright: GNU Public License v3 (GPLv3)
 :Homepage: http://packages.python.org/managesieve
+:Development: https://gitorious.org/managesieve/managesieve
 
 Sieve scripts allow users to filter incoming email on the mail server.
 The ManageSieve protocol allows managing Sieve scripts on a remote
