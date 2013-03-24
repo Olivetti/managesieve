@@ -178,7 +178,7 @@ def cmd_edit(scriptname):
             print 'Deleting tempfile.'
             os.remove(filename)
             return SUPPRESS
-    raise "Should not come here."
+    raise Exception("Should not come here.")
 
 if os.name != 'posix':
     del cmd_edit
