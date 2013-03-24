@@ -9,6 +9,13 @@ from setuptools import setup
 
 description = "ManageSieve client library for remotely managing Sieve scripts"
 
+
+try:
+    from distutils.command.build_py import build_py_2to3 as build_py
+except ImportError:
+    # 2.x
+    from distutils.command.build_py import build_py
+
 from distutils.command.bdist_rpm import bdist_rpm
 
 # patch distutils if it can't cope with the "classifiers" or
@@ -70,4 +77,5 @@ setup (name = "managesieve",
           'Topic :: Software Development :: Libraries :: Python Modules',
           'Topic :: Utilities'
           ],
+       cmdclass = {'build_py':build_py},
      )
