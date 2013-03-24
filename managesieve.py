@@ -31,7 +31,7 @@ DEBUG2 = logging.DEBUG+1 # more details
 DEBUG3 = logging.DEBUG   # all debug messages (pattern matching, etc.)
 
 CRLF = '\r\n'
-SIEVE_PORT = 2000
+SIEVE_PORT = 4190
 
 OK = 'OK'
 NO = 'NO'
