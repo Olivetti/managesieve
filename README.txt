@@ -158,10 +158,10 @@ Not yet implemented
 - sieve-names are only quoted dump (put into quotes, but no escapes yet).
 
 
-Copyright/License
+Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Copyright (C) 2003-2011 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+Copyright (C) 2003-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 License: Python Software Foundation License
          http://www.opensource.org/licenses/PythonSoftFoundation.html
