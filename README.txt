@@ -55,8 +55,9 @@ Requirements and Installation
 
 `managesieve` requires
 
-* `Python 2.x`__ or higher (tested with 2.5 and 2.6, but other
-  versions should work, too, Python 3.x is *not* supported),
+* `Python 2.2`__ or higher (tested with 2.5 and 2.6, but other
+  versions should work, too; Python 3 is supported by converting the
+  source at install-time),
 * `logging`__ when using Python < 2.3 (`logging` is already
   included in Python 2.3 and higher)
 * `setuptools`__ or `distribute`__ for installation (see below)
