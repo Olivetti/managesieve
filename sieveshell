@@ -36,6 +36,7 @@ __license__ = "GNU General Public License, version 3"
 
 
 import sys, getpass, inspect, managesieve, os
+import subprocess
 sieve = None
 
 class SUPPRESS:
@@ -152,7 +153,7 @@ def cmd_edit(scriptname):
 
     editor = os.environ.get('EDITOR', 'vi')
     while 1:
-        res = os.system('%s %s' % (editor, filename))
+        res = subprocess.call([editor, filename])
         if res: # error editing
             if not YesNoQuestion('Editor returned failture. Continue?'):
                 os.remove(filename)
