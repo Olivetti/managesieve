@@ -278,14 +278,10 @@ def shell(auth, user=None, passwd=None, realm=None,
     global sieve
     try:
         print 'connecting to', server
-        try:
-            if not auth: auth = getpass.getuser()
-            if not user: user = auth
-            if not passwd: passwd = getpass.getpass()
-        except EOFError:
-            # Ctrl-D pressed
-            print # clear line
-            return
+        if not auth: auth = getpass.getuser()
+        if not user: user = auth
+        if not passwd: passwd = getpass.getpass()
+
         sieve = managesieve.MANAGESIEVE(server, port=port, use_tls=use_tls)
         print 'Server capabilities:',
         for c in sieve.capabilities: print c,
@@ -306,7 +302,7 @@ def shell(auth, user=None, passwd=None, realm=None,
             print res, sieve.response_text or sieve.response_code
             cmd_quit()
         cmd_loop()
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print
         cmd_quit()
 
