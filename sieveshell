@@ -324,7 +324,8 @@ def main():
                       help = "The authorization name to request; "
                              "by default, derived from the "
                              "authentication credentials.")
-    parser.add_option('--passwd', help = "The password to use.")
+    parser.add_option('--passwd', default = os.environ.get('SIEVE_PASSWORD', None),
+                      help = "The password to use. You can also use the environment variable SIEVE_PASSWORD.")
     parser.add_option('--realm',
                       help= "The realm to attempt authentication in.")
     parser.add_option('--auth-mech', default="",
