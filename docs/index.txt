@@ -20,7 +20,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
           `GPL v3`__ for `sieveshell` and test suite.
 :Homepage: http://packages.python.org/managesieve
 :Download: http://pypi.python.org/pypi/managesieve
-:Development: https://gitorious.org/managesieve/managesieve
+:Development: https://gitlab.com/htgoebel/managesieve
 
 __ http://www.opensource.org/licenses/PythonSoftFoundation.html
 __ http://opensource.org/licenses/GPL-3.0
@@ -72,29 +72,30 @@ Source Code Repository
 ----------------------------
 
 The source of `managesieve` is maintained at
-`gitorious.org <http://www.gitorious.org>`_
+`GitLab <https://gitlab.com>`_. Patches and pull-requests are hearty
+welcome.
 
 * You may browse the current repository at the
   `Repository Browser 
-  <https://www.gitorious.org/managesieve/managesieve>`_
+  <https://gitlab.com/htgoebel/managesieve>`_
 
 * Or you may check out the current version by running::
 
-    git clone git://gitorious.org/managesieve/managesieve.git
+    git clone https://gitlab.com/htgoebel/managesieve.git
 
 Issue Tracker
 ----------------
 
-Sorry, since we needed to move away from origo, we currently do not
-have an issue tracker. Tips where good hosted trackers are available
-are welcome.
+Please submit bugs and enhancements to the Issue Tracker at
+<https://gitlab.com/htgoebel/managesieve/issues>.
 
 
 Historical Note
 ====================
 
 `managesieve` was hosted at origo.ethz.ch, but this site closed
-at 2012-05-31.
+at May 2012. Then `managesieve` was hosted gitorious.org,
+which was closed May 2015.
 
 
 ..
