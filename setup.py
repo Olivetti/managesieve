@@ -62,7 +62,8 @@ setup (name = "managesieve",
        py_modules = ['managesieve'],
        scripts = ['sieveshell'],
        install_requires = install_requires,
-       cmdclass = {'bdist_rpm': MyBDist_RPM},
+       cmdclass = {'bdist_rpm': MyBDist_RPM,
+                   'build_py': build_py},
        classifiers = [
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
@@ -77,5 +78,4 @@ setup (name = "managesieve",
           'Topic :: Software Development :: Libraries :: Python Modules',
           'Topic :: Utilities'
           ],
-       cmdclass = {'build_py':build_py},
      )
