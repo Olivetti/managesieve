@@ -178,4 +178,4 @@ Some ideas taken from imaplib written by Piers Lauder
 <piers@cs.su.oz.au> et al.
 
 Thanks to Tomas 'Skitta' Lindroos, Lorenzo Boccaccia, Alain Spineux,
-darkness and Gregory Boyce for sending patches.
+darkness, Gregory Boyce and Grégoire Détrez for sending patches.

@@ -36,6 +36,7 @@ __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = "Copyright (C) 2003-2016 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
 
+from netrc import netrc
 import sys, getpass, inspect, managesieve, os
 import subprocess
 import readline
@@ -280,15 +281,14 @@ def shell(auth, user=None, passwd=None, realm=None,
                         cmd_quit()
 
     global sieve
-    try:
-        print('connecting to', server, end=" ")
-        if not auth: auth = getpass.getuser()
-        if not user: user = auth
-        if user:
-            print('as user', user, end="")
-        print()
-        if not passwd: passwd = getpass.getpass()
 
+    # Parameters need to be given
+    assert auth, "Missing authname"
+    assert user, "Missing user"
+    assert passwd, "Missing password"
+    assert server, "Missing server"
+    try:
+        print('connecting to', server, 'as user', user)
         sieve = managesieve.MANAGESIEVE(server, port=port, use_tls=use_tls)
         print('Server capabilities:', *sieve.capabilities)
         try:
@@ -312,6 +312,20 @@ def shell(auth, user=None, passwd=None, realm=None,
         cmd_quit()
 
 
+def get_netrc(server):
+    """
+    Returns the login/password value from the user's .netrc file if present
+    """
+    try:
+        rc = netrc().authenticators(server)
+        if rc is not None:
+            return (rc[0], rc[2])
+    except:
+        # if reading or parsing the file fails, ignore it
+        pass
+    return (None, None)
+
+
 def main():
     """Parse options and call interactive shell."""
     from argparse import ArgumentParser
@@ -323,7 +337,7 @@ def main():
                         help="The authorization name to request; "
                               "by default, derived from the "
                               "authentication credentials.")
-    parser.add_argument('--passwd', default = os.environ.get('SIEVE_PASSWORD', None),
+    parser.add_argument('--passwd',
                         help="The password to use. You can also use "
                              "the environment variable SIEVE_PASSWORD.")
     parser.add_argument('--realm',
@@ -363,6 +377,28 @@ def main():
             level = managesieve.DEBUG0 - (args.verbose-2)
         import logging
         logging.basicConfig(level=level, format="%(message)s")
+
+    # The following assignments define the priority of the different
+    # configuration methods (cmdline > env > netrc > ask the user)
+    env_authname = os.environ.get('SIEVE_AUTHNAME')
+    env_passwd = os.environ.get('SIEVE_PASSWORD')
+    netrc_authname, netrc_passwd = get_netrc(args.server)
+    args.authname = (
+        args.authname if args.authname is not None
+        else env_authname if env_authname is not None
+        else netrc_authname if netrc_authname is not None
+        else getpass.getuser()
+    )
+    args.username = (
+        args.username if args.username is not None
+        else args.authname
+    )
+    args.passwd = (
+        args.passwd if args.passwd is not None
+        else env_passwd if env_passwd is not None
+        else netrc_passwd if netrc_passwd is not None
+        else getpass.getpass()
+    )
 
     shell(args.authname, args.username, args.passwd,
           args.realm, args.auth_mech, args.server, args.use_tls,
