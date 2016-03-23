@@ -1,16 +1,12 @@
 #!/usr/bin/env python
 """Unit test for managesieve.py
-
-(C) Copyright 2003 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__version__ = "0.1"
-__date__ = "2003-05-17"
-__copyright__ = "(c) Copyright 2003 by Hartmut Goebel"
+__copyright__ = "(c) Copyright 2003-2016 by Hartmut Goebel"
 __license__ = "GPL"
 
-import unittest
+import pytest
 import managesieve
 
 try:

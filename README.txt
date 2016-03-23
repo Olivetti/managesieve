@@ -159,7 +159,7 @@ Not yet implemented
 Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Copyright (C) 2003-2013 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+Copyright (C) 2003-2016 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 License: Python Software Foundation License
          http://www.opensource.org/licenses/PythonSoftFoundation.html
