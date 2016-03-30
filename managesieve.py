@@ -21,6 +21,13 @@ try:
 except ImportError:
     ssl_wrap_socket = socket.ssl
 
+# only used for assertion. TODO: Remove
+try:
+    unicode
+except:
+    unicode = str
+
+
 __all__ = [ 'MANAGESIEVE', 'SIEVE_PORT', 'OK', 'NO', 'BYE',
             'INFO', 'DEBUG', 'DEBUG0', 'DEBUG1', 'DEBUG2', 'DEBUG3']
 
@@ -31,15 +38,15 @@ DEBUG1 = logging.DEBUG+2 # send and read data (except long literals)
 DEBUG2 = logging.DEBUG+1 # more details
 DEBUG3 = logging.DEBUG   # all debug messages (pattern matching, etc.)
 
-CRLF = '\r\n'
+CRLF = b'\r\n'
 SIEVE_PORT = 4190
 
-OK = 'OK'
-NO = 'NO'
-BYE = 'BYE'
+OK = b'OK'
+NO = b'NO'
+BYE = b'BYE'
 
-AUTH_PLAIN = "PLAIN"
-AUTH_LOGIN = "LOGIN"
+AUTH_PLAIN = b"PLAIN"
+AUTH_LOGIN = b"LOGIN"
 # authentication mechanisms currently supported
 # in order of preference
 AUTHMECHS = [AUTH_PLAIN, AUTH_LOGIN]
@@ -50,23 +57,23 @@ AUTHMECHS = [AUTH_PLAIN, AUTH_LOGIN]
 
 #    Commands
 commands = {
-    # name          valid states
-    'STARTTLS':     ('NONAUTH',),
-    'AUTHENTICATE': ('NONAUTH',),
-    'LOGOUT':       ('NONAUTH', 'AUTH', 'LOGOUT'),
-    'CAPABILITY':   ('NONAUTH', 'AUTH'),
-    'GETSCRIPT':    ('AUTH', ),
-    'PUTSCRIPT':    ('AUTH', ),
-    'SETACTIVE':    ('AUTH', ),
-    'DELETESCRIPT': ('AUTH', ),
-    'LISTSCRIPTS':  ('AUTH', ),
-    'HAVESPACE':    ('AUTH', ),
+    # name            valid states
+    b'STARTTLS':     ('NONAUTH',),
+    b'AUTHENTICATE': ('NONAUTH',),
+    b'LOGOUT':       ('NONAUTH', 'AUTH', 'LOGOUT'),
+    b'CAPABILITY':   ('NONAUTH', 'AUTH'),
+    b'GETSCRIPT':    ('AUTH', ),
+    b'PUTSCRIPT':    ('AUTH', ),
+    b'SETACTIVE':    ('AUTH', ),
+    b'DELETESCRIPT': ('AUTH', ),
+    b'LISTSCRIPTS':  ('AUTH', ),
+    b'HAVESPACE':    ('AUTH', ),
     }
 
 ### needed
-Oknobye = re.compile(r'(?P<type>(OK|NO|BYE))'
-                     r'( \((?P<code>.*)\))?'
-                     r'( (?P<data>.*))?')
+Oknobye = re.compile(r'(?P<type>(?:OK|NO|BYE))' # atom / ascii
+                     r'(?: \((?P<code>.*)\))?'  # atom / ascii
+                     r'(?: (?P<data>.*))?')     # string / utf-8
 # draft-martin-managesieve-04.txt defines the size tag of literals to
 # contain a '+' (plus sign) behind the digits, but timsieved does not
 # send one. Thus we are less strikt here:
@@ -102,16 +109,16 @@ class SSLFakeFile:
         self.sslobj = sslobj
 
     def readline(self):
-        str = ""
+        str = b""
         chr = None
-        while chr != "\n":
+        while chr != b"\n":
             chr = self.sslobj.read(1)
             str += chr
         return str
 
     def read(self, size=0):
         if size == 0:
-            return ''
+            return b''
         else:
             return self.sslobj.read(size)
 
@@ -120,11 +127,23 @@ class SSLFakeFile:
 
 
 def sieve_name(name):
+    """
+    According to RFC 5804, sec 1.6 script names are UTF-8 encoded
+    and must not contain
+     -  0000-001F; [CONTROL CHARACTERS]
+     -  007F; DELETE
+     -  0080-009F; [CONTROL CHARACTERS]
+     -  2028; LINE SEPARATOR
+     - 2029; PARAGRAPH SEPARATOR
+    """
     # todo: correct quoting
-    return '"%s"' % name
+    return ('"%s"' % name).encode('utf-8')
+
 
 def sieve_string(string):
-    return '{%d+}%s%s' % ( len(string), CRLF, string )
+    # utf-8 encoded literal
+    octets = string.encode('utf-8')
+    return ('{%d+}\r\n' % len(octets)).encode('ascii') + octets
 
 
 class MANAGESIEVE:
@@ -204,11 +223,11 @@ class MANAGESIEVE:
         # Get server welcome message,
         # request and store CAPABILITY response.
         typ, data = self._get_response()
-        if typ == 'OK':
+        if typ == b'OK':
             self._parse_capabilities(data)
         if use_tls and self.supports_tls:
             typ, data = self.starttls(keyfile=keyfile, certfile=certfile)
-            if typ == 'OK':
+            if typ == b'OK':
                 self._parse_capabilities(data)
 
 
@@ -225,9 +244,9 @@ class MANAGESIEVE:
             if typ == "IMPLEMENTATION":
                 self.implementation = data
             elif typ == "SASL":
-                self.loginmechs = data.split()
+                self.loginmechs = data.decode('ascii').split()
             elif typ == "SIEVE":
-                self.capabilities = data.split()
+                self.capabilities = data.decode('ascii').split()
             elif typ == "STARTTLS":
                 self.supports_tls = 1
             else:
@@ -249,7 +268,7 @@ class MANAGESIEVE:
         """Setup 'self.sock' and 'self.file'."""
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((self.host, self.port))
-        self.file = self.sock.makefile('r')
+        self.file = self.sock.makefile('rb')
 
     def _close(self):
         self.file.close()
@@ -257,14 +276,20 @@ class MANAGESIEVE:
 
     def _read(self, size):
         """Read 'size' bytes from remote."""
-	data = ""
-	while len(data) < size:
-	    data += self.file.read(size - len(data))
-	return data
+        data = b""
+        while len(data) < size:
+            data += self.file.read(size - len(data))
+        return data
 
     def _readline(self):
         """Read line from remote."""
-        return self.file.readline()
+        # Continuation bytes are never 7-bit-ascii characters, so
+        # using readline() scanning for CR and LR is okay here.
+        line = self.file.readline()
+        assert isinstance(line, bytes)
+        line = line.decode('utf-8')
+        assert isinstance(line, unicode)
+        return line
 
     def _send(self, data):
         return self.sock.send(data)
@@ -273,6 +298,7 @@ class MANAGESIEVE:
         line = self._readline()
         if not line:
             raise self.abort('socket error: EOF')
+        assert isinstance(line, unicode)
         # Protocol mandates all lines terminated by CRLF
         line = line[:-2]
         if __debug__:
@@ -300,43 +326,47 @@ class MANAGESIEVE:
         The responce code and text may be found in <instance>.response_code
         and <instance>.response_text, respectivly.
         """
+        assert isinstance(name, bytes)
         if self.state not in commands[name]:
             raise self.error(
                 'Command %s illegal in state %s' % (name, self.state))
         # concatinate command and arguments (if any)
-        data = " ".join(filter(None, (name, arg1, arg2)))
+        data = b" ".join(filter(None, (name, arg1, arg2)))
         if __debug__:
             self._log(DEBUG1, '> %s', data)
         try:
             try:
-                self._send('%s%s' % (data, CRLF))
+                self._send(data + CRLF)
                 for o in options:
                     if __debug__:
                         self._log(DEBUG1, '> %r', o)
                     self._send('%s%s' % (o, CRLF))
-            except (socket.error, OSError), val:
+            except (socket.error, OSError) as val:
                 raise self.abort('socket error: %s' % val)
             return self._get_response()
-        except self.abort, val:
+        except self.abort as val:
             if __debug__:
                 self.print_log()
             raise
 
 
     def _readstring(self, data):
-        if data[0] == ' ': # space -> error
+        assert isinstance(data, unicode)
+        if data[0] in (ord(b' '), ' '): # space -> error
             raise self.error('Unexpected space: %r' % data)
-        elif data[0] == '"': # handle double quote:
+        elif data[0] in (ord(b'"'), '"'): # handle double quote:
+            # Python 3: type(data[0]) == int -> ord(b'"')
+            # Python 2: type(data[0]) == str -> '"'
             if not self._match(re_dquote, data):
                 raise self.error('Unmatched quote: %r' % data)
             snippet = self.mo.group(1)
-            return re_esc_quote.sub(r'\1', snippet), data[self.mo.end():]
+            return re_esc_quote.sub(br'\1', snippet), data[self.mo.end():]
         elif self._match(Literal, data):
             # read a 'literal' string
             size = int(self.mo.group('size'))
             if __debug__:
                 self._log(DEBUG2, 'read literal size %s', size)
-            return self._read(size), self._get_line()
+            return self._read(size).decode('utf-8'), self._get_line()
         else:
             data = data.split(' ', 1)
             if len(data) == 1:
@@ -377,6 +407,7 @@ class MANAGESIEVE:
         """
         data = [] ; dat = None
         resp = self._get_line()
+        assert isinstance(resp, unicode)
         while 1:
             if self._match(Oknobye, resp):
                 typ, code, dat = self.mo.group('type','code','data')
@@ -472,7 +503,7 @@ class MANAGESIEVE:
         else:
             raise self.error("managesieve doesn't support %s authentication." % mech)
 
-        typ, data = self._command('AUTHENTICATE',
+        typ, data = self._command(b'AUTHENTICATE',
                                   sieve_name(mech), *authobjects)
         if typ == 'OK':
             self.state = 'AUTH'
@@ -496,7 +527,7 @@ class MANAGESIEVE:
         """Terminate connection to server."""
         # command-logout        = "LOGOUT" CRLF
         # response-logout       = response-oknobye
-        typ = self._simple_command('LOGOUT')
+        typ = self._simple_command(b'LOGOUT')
         self.state = 'LOGOUT'
         self._close()
         return typ
@@ -511,7 +542,7 @@ class MANAGESIEVE:
         """
         # command-listscripts   = "LISTSCRIPTS" CRLF
         # response-listscripts  = *(sieve-name [SP "ACTIVE"] CRLF) response-oknobye
-        typ, data = self._command('LISTSCRIPTS')
+        typ, data = self._command(b'LISTSCRIPTS')
         if typ != 'OK': return typ, data
         scripts = []
         for dat in data:
@@ -532,7 +563,7 @@ class MANAGESIEVE:
         # command-getscript     = "GETSCRIPT" SP sieve-name CRLF
         # response-getscript    = [string CRLF] response-oknobye
         
-        typ, data = self._command('GETSCRIPT', sieve_name(scriptname))
+        typ, data = self._command(b'GETSCRIPT', sieve_name(scriptname))
         if typ != 'OK': return typ, data
         if len(data) != 1:
             self.error('GETSCRIPT returned more than one string/script')
@@ -544,7 +575,7 @@ class MANAGESIEVE:
         """Put a script onto the server."""
         # command-putscript     = "PUTSCRIPT" SP sieve-name SP string CRLF
         # response-putscript    = response-oknobye
-        return self._simple_command('PUTSCRIPT',
+        return self._simple_command(b'PUTSCRIPT',
                                     sieve_name(scriptname),
                                     sieve_string(scriptdata)
                                     )
@@ -553,22 +584,22 @@ class MANAGESIEVE:
         """Delete a scripts at the server."""
         # command-deletescript  = "DELETESCRIPT" SP sieve-name CRLF
         # response-deletescript = response-oknobye
-        return self._simple_command('DELETESCRIPT', sieve_name(scriptname))
+        return self._simple_command(b'DELETESCRIPT', sieve_name(scriptname))
 
 
     def setactive(self, scriptname):
         """Mark a script as the 'active' one."""
         # command-setactive     = "SETACTIVE" SP sieve-name CRLF
         # response-setactive    = response-oknobye
-        return self._simple_command('SETACTIVE', sieve_name(scriptname))
+        return self._simple_command(b'SETACTIVE', sieve_name(scriptname))
 
 
     def havespace(self, scriptname, size):
         # command-havespace     = "HAVESPACE" SP sieve-name SP number CRLF
         # response-havespace    = response-oknobye
-        return self._simple_command('HAVESPACE',
+        return self._simple_command(b'HAVESPACE',
                                     sieve_name(scriptname),
-                                    str(size))
+                                    str(size).encode('ascii'))
 
 
     def capability(self):
@@ -583,7 +614,7 @@ class MANAGESIEVE:
         """
         # command-capability    = "CAPABILITY" CRLF
         # response-capability   = *(string [SP string] CRLF) response-oknobye
-        typ, data = self._command('CAPABILITY')
+        typ, data = self._command(b'CAPABILITY')
         if typ == 'OK':
             self._parse_capabilities(data)
         return typ, data
@@ -600,7 +631,7 @@ class MANAGESIEVE:
         """
         # command-starttls      = "STARTTLS" CRLF
         # response-starttls     = response-oknobye
-        typ, data = self._command('STARTTLS')
+        typ, data = self._command(b'STARTTLS')
         if typ == 'OK':
             sslobj = ssl_wrap_socket(self.sock, keyfile, certfile)
             self.sock = SSLFakeSocket(self.sock, sslobj)
