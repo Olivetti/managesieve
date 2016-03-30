@@ -9,7 +9,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 -------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.5
+:Version: 0.6
 :Copyright: GNU Public License v3 (GPLv3)
 :Homepage: http://packages.python.org/managesieve
 :Development: https://gitlab.com/htgoebel/managesieve
@@ -28,6 +28,10 @@ there. It is accompanied by a simple yet functional user application
 
 Changes since 0.4.2
 ~~~~~~~~~~~~~~~~~~~~~
+
+* prepare for Python 3 compatibility.
+* minimum required Python version is now Python 2.7
+
 :sieveshell:
   - Changed default port for the MANAGESIEVE protocol to 4190 as
     proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
@@ -55,17 +59,12 @@ Requirements and Installation
 
 `managesieve` requires
 
-* `Python 2.2`__ or higher (tested with 2.5 and 2.6, but other
-  versions should work, too; Python 3 is supported by converting the
-  source at install-time),
-* `logging`__ when using Python < 2.3 (`logging` is already
-  included in Python 2.3 and higher)
-* `setuptools`__ or `distribute`__ for installation (see below)
+* `Python 2.7`__ or higher (tested with 2.7 and 3.4, but other
+  versions should work, too),
+* `setuptools`__ for installation (see below)
 
 __ http://www.python.org/download/
-__ http://pypi.python.org/pypi/logging
 __ http://pypi.python.org/pypi/setuptools
-__ http://pypi.python.org/pypi/distribute
 
 
 :Hints for installing on Windows: Following the links above you will
@@ -74,12 +73,12 @@ __ http://pypi.python.org/pypi/distribute
 
 :Hints for installing on GNU/Linux: Most current GNU/Linux distributions
    provide packages for the requirements. Look for packages names like
-   `python-setuptools` and `python-logging`. Simply install them and
+   `python-setuptools`. Simply install them and
    continue with `installing managesieve`_.
 
 :Hint for installing on other platforms: Many vendors provide Python.
    Please check your vendors software repository. Otherwise please
-   download Python 2.6 (or any higer version from the 2.x series) from
+   download Python 2.7 or 3.4 (or any higer version from the 3.x series) from
    http://www.python.org/download/ and follow the installation
    instructions there.
 
@@ -97,16 +96,16 @@ unpacked `managesieve`. Thus installing is as easy as running::
 
    python ./setup.py install
 
-Otherwise you may install directly using setuptools/easy_install. If
+Otherwise you may install directly using pip. If
 your system has network access installing `managesieve` is a
 breeze::
 
-     easy_install managesieve
+     pip install managesieve
 
 Without network access download `managesieve` from
 http://pypi.python.org/pypi/managesieve and run::
 
-     easy_install managesieve-*.tar.gz
+     pip install managesieve-*.tar.gz
 
 
 More Hints on Installing setuptools

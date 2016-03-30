@@ -1,3 +1,11 @@
+Version 0.6 by Hartmut Goebel <h.goebel at crazy-compilers.com>
+--------------------------------------------------------------------
+
+* add Python 3 compatibility.
+* minimum required Python version is now Python 2.7.
+* Rework test-suite.
+
+
 Version 0.5 by Hartmut Goebel <h.goebel at crazy-compilers.com>
 --------------------------------------------------------------------
 :sieveshell:
