@@ -9,15 +9,6 @@ from setuptools import setup
 
 description = "ManageSieve client library for remotely managing Sieve scripts"
 
-
-try:
-    from distutils.command.build_py import build_py_2to3 as build_py
-except ImportError:
-    # 2.x
-    from distutils.command.build_py import build_py
-
-from distutils.command.bdist_rpm import bdist_rpm
-
 # patch distutils if it can't cope with the "classifiers" or
 # "download_url" keywords
 import sys
@@ -29,22 +20,6 @@ if sys.version_info < (2,2,3):
 install_requires = []
 if sys.version_info < (2,3):
     install_requires.append('logging')
-
-
-class MyBDist_RPM(bdist_rpm):
-    """Wrapper for 'bdist_rpm' handling 'python2'"""
-    def finalize_options(self):
-        if self.fix_python:
-            import sys
-            if sys.executable.endswith('/python2'):
-                # this should be more sophisticated, but this
-                # works for our needs here
-                self.requires = self.requires.replace('python ', 'python2 ')
-                self.build_requires = self.build_requires.replace('python ',
-                                                                  'python2 ')
-                self.release = (self.release or "1") + 'python2'
-        bdist_rpm.finalize_options(self)
-
 
 setup (name = "managesieve",
        version = "0.5",
@@ -62,8 +37,6 @@ setup (name = "managesieve",
        py_modules = ['managesieve'],
        scripts = ['sieveshell'],
        install_requires = install_requires,
-       cmdclass = {'bdist_rpm': MyBDist_RPM,
-                   'build_py': build_py},
        classifiers = [
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
