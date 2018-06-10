@@ -16,6 +16,7 @@ with io.open(path.join(this_directory, 'README.txt'), encoding='utf-8') as f:
 
 setup (name = "managesieve",
        version = "0.5",
+       python_requires='>=2.7',
        description = description,
        long_description = long_description,
        long_description_content_type = 'text/x-rst',
