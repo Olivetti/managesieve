@@ -7,18 +7,6 @@ from setuptools import setup
 
 description = "ManageSieve client library for remotely managing Sieve scripts"
 
-# patch distutils if it can't cope with the "classifiers" or
-# "download_url" keywords
-import sys
-if sys.version_info < (2,2,3):
-    from distutils.dist import DistributionMetadata
-    DistributionMetadata.classifiers = None
-    DistributionMetadata.download_url = None
-
-install_requires = []
-if sys.version_info < (2,3):
-    install_requires.append('logging')
-
 setup (name = "managesieve",
        version = "0.5",
        description = description,
@@ -34,7 +22,6 @@ setup (name = "managesieve",
        keywords = ['sieve', 'managesieve', 'sieveshell', 'RFC 5804'],
        py_modules = ['managesieve'],
        scripts = ['sieveshell'],
-       install_requires = install_requires,
        classifiers = [
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
