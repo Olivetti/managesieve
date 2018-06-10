@@ -3,8 +3,6 @@
 
 """Setup script for the managesieve"""
 
-import ez_setup
-ez_setup.use_setuptools()
 from setuptools import setup
 
 description = "ManageSieve client library for remotely managing Sieve scripts"
