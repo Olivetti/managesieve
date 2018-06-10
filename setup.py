@@ -7,10 +7,17 @@ from setuptools import setup
 
 description = "ManageSieve client library for remotely managing Sieve scripts"
 
+# Read the contents of the README file
+from os import path
+import io
+this_directory = path.abspath(path.dirname(__file__))
+with io.open(path.join(this_directory, 'README.txt'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup (name = "managesieve",
        version = "0.5",
        description = description,
-       long_description = open('README.txt').read().strip(),
+       long_description = long_description,
        long_description_content_type = 'text/x-rst',
        author = "Hartmut Goebel",
        author_email = "h.goebel@crazy-compilers.com",
