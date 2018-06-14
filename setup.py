@@ -17,6 +17,8 @@ with io.open(path.join(this_directory, 'README.txt'), encoding='utf-8') as f:
 setup (name = "managesieve",
        version = "0.6.dev0",
        python_requires='>=2.7',
+       setup_requires=["pytest-runner"],
+       tests_require=["pytest"],
        description = description,
        long_description = long_description,
        long_description_content_type = 'text/x-rst',

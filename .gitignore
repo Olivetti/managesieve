@@ -37,10 +37,12 @@
 /build/
 /dist/
 /_venv/
+/.eggs/
 *.py[cod]
 *.egg
 *.egg-info
 *.egg-link
+/.pytest_cache/
 
 /nosetests.xml
 /.coverage
