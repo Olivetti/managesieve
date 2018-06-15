@@ -420,13 +420,6 @@ class MANAGESIEVE:
                 if typ == "BYE":
                     return typ, code
                 return typ, data
-##             elif 0:
-##                 dat2 = None
-##                 dat, resp = self._readstring(resp)
-##                 if resp.startswith(' '):
-##                     dat2, resp = self._readstring(resp[1:])
-##                 data.append( (dat, dat2))
-##                 resp = self._get_line()
             else:
                 dat = []
                 while 1:
