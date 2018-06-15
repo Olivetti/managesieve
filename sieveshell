@@ -29,15 +29,21 @@ The following commands are recognized:
   quit             - quit
 """
 
+from __future__ import print_function
+
 __version__ = "0.6.dev0"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = "Copyright (C) 2003-2016 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
 
-
 import sys, getpass, inspect, managesieve, os
 import subprocess
 import readline
+
+try:
+    stdin_input = raw_input
+except NameError:
+    stdin_input = input
 
 sieve = None
 
@@ -56,16 +62,15 @@ help <command>   - help on command"""
         if cmd in __command_map:
             cmd = __command_map[cmd]
         if 'cmd_%s' % cmd in __commands:
-            print __commands['cmd_%s' % cmd].__doc__
+            print(__commands['cmd_%s' % cmd].__doc__)
         else:
-            print 'Unknown command', repr(cmd)
-            print "Type 'help' for list of commands"
+            print('Unknown command', repr(cmd))
+            print("Type 'help' for list of commands")
     else:
-        cmds = __commands.values()
-        cmds.sort(lambda a,b: cmp(a.func_code.co_firstlineno,
-                                  b.func_code.co_firstlineno))
+        cmds = list(__commands.values())
+        cmds.sort(key=lambda a: a.__code__.co_firstlineno)
         for c in cmds:
-            print c.__doc__
+            print(c.__doc__)
     return SUPPRESS
 
 def cmd_list():
@@ -73,8 +78,8 @@ def cmd_list():
     res, scripts = sieve.listscripts()
     if res == 'OK':
         for scriptname, active in scripts:
-            if active: print scriptname, '\t<<-- active'
-            else: print scriptname
+            if active: print(scriptname, '\t<<-- active')
+            else: print(scriptname)
         res = SUPPRESS
     return res
 
@@ -85,8 +90,8 @@ def cmd_put(filename, scriptname=None):
     if not scriptname: scriptname = filename
     try:
         scriptdata = open(filename).read()
-    except IOError, e:
-        print "Can't read local file %s:" % filename, e.args[1]
+    except IOError as e:
+        print("Can't read local file %s:" % filename, e.args[1])
         return SUPPRESS
     return sieve.putscript(scriptname, scriptdata)
 
@@ -99,11 +104,11 @@ def cmd_get(scriptname, filename=None):
         if filename:
             try:
                 open(filename, 'w').write(scriptdata)
-            except IOError, e:
-                print "Can't write local file %s:" % filename, e.args[1]
+            except IOError as e:
+                print("Can't write local file %s:" % filename, e.args[1])
                 return SUPPRESS
         else:
-            print scriptdata
+            print(scriptdata)
             res = SUPPRESS
     return res
 
@@ -113,7 +118,7 @@ def cmd_edit(scriptname):
 
     def Choice(msg, choices):
         while 1:
-            answer = raw_input(msg + ' ').strip()[:1].lower()
+            answer = stdin_input(msg + ' ').strip()[:1].lower()
             i = choices.find(answer)
             if i >= 0:
                 # valid answer
@@ -128,7 +133,7 @@ def cmd_edit(scriptname):
         if not YesNoQuestion('%s Save script to file?' % msg):
             return
         scriptname = os.path.join(os.getcwd(), scriptname)
-        filename = raw_input('Enter filename (default %s):' % scriptname)
+        filename = stdin_input('Enter filename (default %s):' % scriptname)
         if filename == '':
             filename = scriptname
         scriptdata = open(tmpname).read()
@@ -167,7 +172,7 @@ def cmd_edit(scriptname):
             if res == 'OK':
                 return res
             # res is NO, BYE
-            print res, sieve.response_text or sieve.response_code
+            print(res, sieve.response_text or sieve.response_code)
             if res == 'NO':
                 res = Choice('Upload failed. (E)dit/(R)etry/(A)bort?', 'era')
                 if res == 0: break # finish inner loop, return to 'edit'
@@ -176,7 +181,7 @@ def cmd_edit(scriptname):
                 SaveToFile('', scriptname, filename)
             else: # BYE
                 SaveToFile('Server closed connection.', scriptname, filename)
-            print 'Deleting tempfile.'
+            print('Deleting tempfile.')
             os.remove(filename)
             return SUPPRESS
     raise Exception("Should not come here.")
@@ -202,7 +207,7 @@ def cmd_deactivate():
 
 def cmd_quit(*args):
     """quit             - quit"""
-    print 'quitting.'
+    print('quitting.')
     if sieve:
         try:
             # this mysteriously fails at times
@@ -238,7 +243,7 @@ def shell(auth, user=None, passwd=None, realm=None,
         """Command loop: read and execute lines from stdin."""
         global sieve
         while 1:
-            line = raw_input('> ')
+            line = stdin_input('> ')
             if not line:
                 # EOF/control-d
                 cmd_quit()
@@ -250,44 +255,42 @@ def shell(auth, user=None, passwd=None, realm=None,
             cmd = __command_map.get(line[0], line[0])
             cmdfunc = __commands.get('cmd_%s' % cmd)
             if not cmdfunc:
-                print 'Unknown command', repr(cmd)
+                print('Unknown command', repr(cmd))
             else:
                 if __debug__: result = None
                 try:
                     result = cmdfunc(*line[1:])
-                except TypeError, e:
+                except TypeError as e:
                     if str(e).startswith('%s() takes' % cmdfunc.__name__):
-                        print 'Wrong number of arguments:'
-                        print '\t', cmdfunc.__doc__
+                        print('Wrong number of arguments:')
+                        print('\t', cmdfunc.__doc__)
                         continue
                     else:
                         raise
                 assert result != None
                 if result == 'OK':
-                    print result
+                    print(result)
                 elif result is SUPPRESS:
                     # suppress 'OK' for some commands (list, get)
                     pass
                 else:
-                    print result, sieve.response_text or sieve.response_code
+                    print(result, sieve.response_text or sieve.response_code)
                     if result == "BYE":
                         # quit when server send BYE
                         cmd_quit()
 
     global sieve
     try:
-        print 'connecting to', server,
+        print('connecting to', server, end=" ")
         if not auth: auth = getpass.getuser()
         if not user: user = auth
         if user:
-            print 'as user', user,
-        print
+            print('as user', user, end="")
+        print()
         if not passwd: passwd = getpass.getpass()
 
         sieve = managesieve.MANAGESIEVE(server, port=port, use_tls=use_tls)
-        print 'Server capabilities:',
-        for c in sieve.capabilities: print c,
-        print
+        print('Server capabilities:', *sieve.capabilities)
         try:
             if not authmech:
                 # auto-select best method available
@@ -297,15 +300,15 @@ def shell(auth, user=None, passwd=None, realm=None,
                 res = sieve.authenticate(authmech, user, passwd)
             else:
                 res = sieve.authenticate(authmech, auth, user, passwd)
-        except sieve.error, e:
-            print "Authenticate error: %s" % e
+        except sieve.error as e:
+            print("Authenticate error:", e)
             cmd_quit()
         if res != 'OK':
-            print res, sieve.response_text or sieve.response_code
+            print(res, sieve.response_text or sieve.response_code)
             cmd_quit()
         cmd_loop()
     except (KeyboardInterrupt, EOFError):
-        print
+        print()
         cmd_quit()
 
 
