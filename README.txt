@@ -28,32 +28,29 @@ This module allows accessing a Sieve-Server for managing Sieve scripts
 there. It is accompanied by a simple yet functional user application
 'sieveshell'.
 
-Changes since 0.4.2
+
+Changes since 0.5
 ~~~~~~~~~~~~~~~~~~~~~
 
-* prepare for Python 3 compatibility.
-* minimum required Python version is now Python 2.7
+* Add support for Python 3. Minimum required Python version is now
+  Python 2.7.
 
 :sieveshell:
-  - Changed default port for the MANAGESIEVE protocol to 4190 as
-    proposed by RFC 5804. Thanks to Guido Berhoerster for submitting
-    the patch.
-  - Added option ``--port``. Thanks to Damien Aumaitre for submitting
-    the patch and to Guido Berhoerster for an enhancement.
-  - Added option ``--verbose`` for controlling debug output in
-    managesieve. May be given several times to increase verbosity.
+   - Security fix: No longer leak environment variable SIEVE_PASSWORD
+     when displaying usage help.
+   - Per default enforce secure transport. Suggested by Jan Zerebecki.
+   - Add possibility to use username/password from the .netrc file.
+     The order is: command line options -> environment variables ->
+     .netrc file -> ask user. Thanks to Grégoire Détrez.
 
 :managesieve:
-  - Switched to Python standard logging system.
-    This introduces a minor interface change: MANAGESIEVE.debug and
-    global Debug are gone. See source for information about debugging
-    log levels.
+   - Fail if TLS is requested, but server doesn't support TLS.
+     Suggested by Jan Zerebecki.
 
-Changes since 0.4
-~~~~~~~~~~~~~~~~~~~~~
-  - fixed short read (thanks to paurkedal for submitting the patch)
-  - Use ssl.wrap_socket() instead of deprecated socket.ssl().
-    Thanks to Guido Berhoerster for submitting the patch.
+:project:
+   - Rework and enhance test-suite. Thanks to Matěj Cepl for nudging
+     to proper pytest integration.
+   - Lots if internal cleanup.
 
 
 Requirements and Installation
