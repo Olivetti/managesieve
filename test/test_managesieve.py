@@ -114,11 +114,13 @@ Responses = list(__makeResponses(ResponseTuples))
 print(Responses)
 
 class SIEVEforTest(managesieve.MANAGESIEVE):
-    def __init__(self):
-        self._set_response_data(Responses[0][-1])
+    def __init__(self, response_data=None):
+        if response_data is None:
+            response_data = Responses[0][-1]
+        self._set_response_data(response_data)
         managesieve.MANAGESIEVE.__init__(self)
         #self.state = 'AUTH'
-        
+
     def _open(self, host, port):
         # cmd_file : the buffer where the command is send to
         self.cmd_file = io.BytesIO()
@@ -184,6 +186,22 @@ def _test_with_responce_data(testSieve,
     # check if we've recieved the expected data
     if result == OK:
         assert data == exp_data
+
+
+#--- basic functions ---
+
+def test_init():
+    sieve = SIEVEforTest(
+        b'"IMPLEMENTATION" "Cyrus timsieved 2.4.17"\r\n'
+        b'"SASL" "DIGEST-MD5 NTLM LOGIN PLAIN"\r\n'
+        b'"SIEVE" "comparator-i;ascii-numeric fileinto subaddress copy"\r\n'
+        b'"STARTTLS"\r\n'
+        b'"UNAUTHENTICATE"\r\n'
+        b'OK\r\n')
+    assert sieve.supports_tls
+    assert set(sieve.loginmechs) == set("DIGEST-MD5 NTLM LOGIN PLAIN".split())
+    assert set(sieve.capabilities) == set("comparator-i;ascii-numeric fileinto subaddress copy".split())
+
 
 #--- simple commands ---
 
