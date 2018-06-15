@@ -208,6 +208,38 @@ def test_init_wring_data():
             b' "IMPLEMENTATION" "Cyrus timsieved 2.4.17"\r\n'
             b'OK\r\n')
 
+def test__command():
+    sn = managesieve.sieve_name
+    sieve = SIEVEforTest(
+        b'OK\r\n'
+        b'OK\r\n')
+    sieve._command(b'STARTTLS', sn("arg1"), sn("arg2"),
+                   b"arg3", b"arg4", b"arg5", b"arg6")
+
+def test_authenticate_plain1():
+    sieve = SIEVEforTest(
+        b'"SASL" "LOGIN PLAIN"\r\n'
+        b'OK\r\n'
+        b'OK\r\n')
+    sieve.authenticate('PLAIN', "myname", "mypassword")
+    assert sieve.state == 'AUTH'
+
+def test_authenticate_plain2():
+    sieve = SIEVEforTest(
+        b'"SASL" "LOGIN PLAIN"\r\n'
+        b'OK\r\n'
+        b'OK\r\n')
+    sieve.authenticate('PLAIN', "myname", "myname", "mypassword")
+    assert sieve.state == 'AUTH'
+
+def test_authenticate_login():
+    sieve = SIEVEforTest(
+        b'"SASL" "LOGIN PLAIN"\r\n'
+        b'OK\r\n'
+        b'OK\r\n')
+    sieve.authenticate('LOGIN', "myauth", "myname", "mypassword")
+    assert sieve.state == 'AUTH'
+
 #--- simple commands ---
 
 @pytest.mark.parametrize("exp_res, exp_code, exp_text, send_cmd", Responses)
