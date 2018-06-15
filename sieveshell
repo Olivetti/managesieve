@@ -311,57 +311,55 @@ def shell(auth, user=None, passwd=None, realm=None,
 
 def main():
     """Parse options and call interactive shell."""
-    try:
-        from optparse import OptionParser
-    except ImportError:
-        from optik import OptionParser
-    parser = OptionParser('Usage: %prog [options] server')
-    parser.add_option('--authname',
-                      help= "The user to use for authentication "
-                            "(defaults to current user).")
-    parser.add_option('--user', dest='username',
-                      help = "The authorization name to request; "
-                             "by default, derived from the "
-                             "authentication credentials.")
-    parser.add_option('--passwd', default = os.environ.get('SIEVE_PASSWORD', None),
-                      help = "The password to use. You can also use the environment variable SIEVE_PASSWORD.")
-    parser.add_option('--realm',
-                      help= "The realm to attempt authentication in.")
-    parser.add_option('--auth-mech', default="",
-                      help= "The SASL authentication mechanism to use "
-                            "(default: auto select; available: %s)." %  ', '.join(managesieve.AUTHMECHS))
-    parser.add_option('--script', '--script-file',
-                      help= "Instead of working interactively, run "
-                            "commands from SCRIPT, and exit when done.")
-    parser.add_option('--use-tls', '--tls', action="store_true",
-                      help="Switch to TLS if server supports it.")
-    parser.add_option('--port', type="int", default=managesieve.SIEVE_PORT,
-                      help="The TCP port number to connect to (default: %default)")
-    parser.add_option('-v', '--verbose', action='count', default=0,
-                      help='Be verbose. May be given several times to increase verbosity')
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument('--authname',
+                        help="The user to use for authentication "
+                             "(defaults to current user).")
+    parser.add_argument('--user', dest='username',
+                        help="The authorization name to request; "
+                              "by default, derived from the "
+                              "authentication credentials.")
+    parser.add_argument('--passwd', default = os.environ.get('SIEVE_PASSWORD', None),
+                        help="The password to use. You can also use "
+                             "the environment variable SIEVE_PASSWORD.")
+    parser.add_argument('--realm',
+                        help="The realm to attempt authentication in.")
+    parser.add_argument('--auth-mech', default="",
+                        help="The SASL authentication mechanism to use "
+                             "(default: auto select; available: %s)." %
+                             ', '.join(map(str, managesieve.AUTHMECHS)))
+    parser.add_argument('--script', '--script-file',
+                        help="Instead of working interactively, run "
+                             "commands from SCRIPT, and exit when done.")
+    parser.add_argument('--use-tls', '--tls', action="store_true",
+                        help="Switch to TLS if server supports it.")
+    parser.add_argument('--port', type=int, default=managesieve.SIEVE_PORT,
+                        help="The TCP port number to connect to "
+                             "(default: %(default)s)")
+    parser.add_argument('-v', '--verbose', action='count', default=0,
+                        help='Be verbose. May be given several times '
+                             'to increase verbosity')
+    parser.add_argument('server')
 
-    options, args = parser.parse_args()
+    args = parser.parse_args()
 
-    if options.auth_mech and not options.auth_mech.upper() in managesieve.AUTHMECHS:
-        parser.error("Authentication mechanism %s is not supported. Choose one of %s" % (options.auth_mech.upper(), ', '.join(managesieve.AUTHMECHS)))
+    if args.auth_mech and not args.auth_mech.upper() in managesieve.AUTHMECHS:
+        parser.error("Authentication mechanism %s is not supported. Choose one of %s" % (args.auth_mech.upper(), ', '.join(managesieve.AUTHMECHS)))
 
-    if len(args) != 1:
-        parser.error("Argument 'server' missing.")
-    server = args[0]
-
-    if not (1 <= options.port <= 65535):
+    if not (1 <= args.port <= 65535):
         parser.error("The TCP port number must be between 1 and 65535")
 
-    if options.verbose:
+    if args.verbose:
         level = managesieve.INFO
-        if options.verbose > 1:
-            level = managesieve.DEBUG0 - (options.verbose-2)
+        if args.verbose > 1:
+            level = managesieve.DEBUG0 - (args.verbose-2)
         import logging
         logging.basicConfig(level=level, format="%(message)s")
 
-    shell(options.authname, options.username, options.passwd,
-          options.realm, options.auth_mech, server, options.use_tls,
-          options.port)
+    shell(args.authname, args.username, args.passwd,
+          args.realm, args.auth_mech, args.server, args.use_tls,
+          args.port)
     return 0
 
 
