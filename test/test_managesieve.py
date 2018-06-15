@@ -202,6 +202,11 @@ def test_init():
     assert set(sieve.loginmechs) == set("DIGEST-MD5 NTLM LOGIN PLAIN".split())
     assert set(sieve.capabilities) == set("comparator-i;ascii-numeric fileinto subaddress copy".split())
 
+def test_init_wring_data():
+    with pytest.raises(SIEVEforTest.error):
+        sieve = SIEVEforTest(
+            b' "IMPLEMENTATION" "Cyrus timsieved 2.4.17"\r\n'
+            b'OK\r\n')
 
 #--- simple commands ---
 
