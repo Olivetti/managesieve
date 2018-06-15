@@ -352,11 +352,9 @@ class MANAGESIEVE:
 
     def _readstring(self, data):
         assert isinstance(data, unicode)
-        if data[0] in (ord(b' '), ' '): # space -> error
+        if data.startswith(" ") : # space -> error
             raise self.error('Unexpected space: %r' % data)
-        elif data[0] in (ord(b'"'), '"'): # handle double quote:
-            # Python 3: type(data[0]) == int -> ord(b'"')
-            # Python 2: type(data[0]) == str -> '"'
+        elif data.startswith('"'): # handle double quote:
             if not self._match(re_dquote, data):
                 raise self.error('Unmatched quote: %r' % data)
             snippet = self.mo.group(1)
@@ -421,7 +419,6 @@ class MANAGESIEVE:
                 # if server quits here, send code instead of empty data
                 if typ == "BYE":
                     return typ, code
-
                 return typ, data
 ##             elif 0:
 ##                 dat2 = None
