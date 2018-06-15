@@ -336,7 +336,11 @@ def main():
                         help="Instead of working interactively, run "
                              "commands from SCRIPT, and exit when done.")
     parser.add_argument('--use-tls', '--tls', action="store_true",
-                        help="Switch to TLS if server supports it.")
+                        default=True,
+                        help="Use secure transport (TLS), this is the default.")
+    parser.add_argument('--insecure-transport', '--no-tls', dest="user_tls",
+                        action="store_false",
+                        help="Enforce to not use secure transport (TLS)")
     parser.add_argument('--port', type=int, default=managesieve.SIEVE_PORT,
                         help="The TCP port number to connect to "
                              "(default: %(default)s)")
