@@ -154,7 +154,8 @@ class MANAGESIEVE:
         host - host's name (default: localhost)
         port - port number (default: standard Sieve port).
         
-        use_tls  - switch to TLS automatically, if server supports
+        use_tls  - switch to TLS automatically,
+                   fail if the server doesn't support STARTTLS
         keyfile  - keyfile to use for TLS (optional)
         certfile - certfile to use for TLS (optional)
 
@@ -225,7 +226,9 @@ class MANAGESIEVE:
         typ, data = self._get_response()
         if typ == 'OK':
             self._parse_capabilities(data)
-        if use_tls and self.supports_tls:
+        if use_tls:
+            if not self.supports_tls:
+                self.abort('TLS requested, but server does not support TLS')
             typ, data = self.starttls(keyfile=keyfile, certfile=certfile)
             if typ == 'OK':
                 self._parse_capabilities(data)
