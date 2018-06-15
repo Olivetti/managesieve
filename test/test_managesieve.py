@@ -113,7 +113,7 @@ ResponseTuples = {
 Responses = list(__makeResponses(ResponseTuples))
 print(Responses)
 
-class TestSIEVE(managesieve.MANAGESIEVE):
+class SIEVEforTest(managesieve.MANAGESIEVE):
     def __init__(self):
         self._set_response_data(Responses[0][-1])
         managesieve.MANAGESIEVE.__init__(self)
@@ -152,7 +152,7 @@ class TestSIEVE(managesieve.MANAGESIEVE):
 
 @pytest.fixture
 def testSieve():
-    sieve = TestSIEVE()
+    sieve = SIEVEforTest()
     sieve.state = 'AUTH'
     return sieve
 
