@@ -41,12 +41,12 @@ DEBUG3 = logging.DEBUG   # all debug messages (pattern matching, etc.)
 CRLF = b'\r\n'
 SIEVE_PORT = 4190
 
-OK = b'OK'
-NO = b'NO'
-BYE = b'BYE'
+OK = 'OK'
+NO = 'NO'
+BYE = 'BYE'
 
-AUTH_PLAIN = b"PLAIN"
-AUTH_LOGIN = b"LOGIN"
+AUTH_PLAIN = "PLAIN"
+AUTH_LOGIN = "LOGIN"
 # authentication mechanisms currently supported
 # in order of preference
 AUTHMECHS = [AUTH_PLAIN, AUTH_LOGIN]
@@ -223,11 +223,11 @@ class MANAGESIEVE:
         # Get server welcome message,
         # request and store CAPABILITY response.
         typ, data = self._get_response()
-        if typ == b'OK':
+        if typ == 'OK':
             self._parse_capabilities(data)
         if use_tls and self.supports_tls:
             typ, data = self.starttls(keyfile=keyfile, certfile=certfile)
-            if typ == b'OK':
+            if typ == 'OK':
                 self._parse_capabilities(data)
 
 
@@ -244,9 +244,9 @@ class MANAGESIEVE:
             if typ == "IMPLEMENTATION":
                 self.implementation = data
             elif typ == "SASL":
-                self.loginmechs = data.decode('ascii').split()
+                self.loginmechs = data.split()
             elif typ == "SIEVE":
-                self.capabilities = data.decode('ascii').split()
+                self.capabilities = data.split()
             elif typ == "STARTTLS":
                 self.supports_tls = 1
             else:
@@ -340,7 +340,7 @@ class MANAGESIEVE:
                 for o in options:
                     if __debug__:
                         self._log(DEBUG1, '> %r', o)
-                    self._send('%s%s' % (o, CRLF))
+                    self._send(o + CRLF)
             except (socket.error, OSError) as val:
                 raise self.abort('socket error: %s' % val)
             return self._get_response()
@@ -488,17 +488,18 @@ class MANAGESIEVE:
         if not mech in self.loginmechs:
             raise self.error("Server doesn't allow %s authentication." % mech)
 
+        authobjects = [ao.encode('utf-8') for ao in authobjects]
         if mech == AUTH_LOGIN:
-            authobjects = [ sieve_name(binascii.b2a_base64(ao)[:-1])
+            authobjects = [ sieve_name(binascii.b2a_base64(ao)[:-1].decode('ascii'))
                             for ao in authobjects
                             ]
         elif mech == AUTH_PLAIN:
             if len(authobjects) < 3:
                 # assume authorization identity (authzid) is missing
                 # and these two authobjects are username and password
-                authobjects.insert(0, '')
-            ao = '\0'.join(authobjects)
-            ao = binascii.b2a_base64(ao)[:-1]
+                authobjects.insert(0, b'')
+            ao = b'\0'.join(authobjects)
+            ao = binascii.b2a_base64(ao)[:-1].decode('ascii')
             authobjects = [ sieve_string(ao) ]
         else:
             raise self.error("managesieve doesn't support %s authentication." % mech)
