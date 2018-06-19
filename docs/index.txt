@@ -20,7 +20,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 :License: `Python Software Foundation License`__ for the module,
           `GPL v3`__ for `sieveshell` and test suite.
 :Homepage: https://managesieve.readthedocs.io/
-:Download: http://pypi.python.org/pypi/managesieve
+:Download: https://pypi.org/project/managesieve
 :Development: https://gitlab.com/htgoebel/managesieve
 
 __ http://www.opensource.org/licenses/PythonSoftFoundation.html
