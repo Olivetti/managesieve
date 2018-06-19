@@ -13,6 +13,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 .. toctree::
    :maxdepth: 2
 
+   Installation
 
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
