@@ -11,7 +11,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 :Copyright:   2003-2018 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
 	      GNU Public Licence v3 (GPLv3)
-:Homepage: http://packages.python.org/managesieve
+:Homepage:    https://managesieve.readthedocs.io/
 :Development: https://gitlab.com/htgoebel/managesieve
 
 Sieve scripts allow users to filter incoming email on the mail server.
