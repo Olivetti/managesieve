@@ -1,5 +1,3 @@
-.. -*- mode: rst ; ispell-local-dictionary: "american" -*-
-
 ===============
 `managesieve`
 ===============
@@ -98,3 +96,8 @@ Some ideas taken from imaplib written by Piers Lauder
 
 Thanks to Tomas 'Skitta' Lindroos, Lorenzo Boccaccia, Alain Spineux,
 darkness, Gregory Boyce and Grégoire Détrez for sending patches.
+
+.. Emacs config:
+ Local Variables:
+ mode: rst
+ End:
