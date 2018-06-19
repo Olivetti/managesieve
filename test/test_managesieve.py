@@ -4,7 +4,7 @@ Unit tests for managesieve.py
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__copyright__ = "(c) Copyright 2003-2016 by Hartmut Goebel"
+__copyright__ = "(c) Copyright 2003-2018 by Hartmut Goebel"
 __license__ = "GPL"
 
 import io

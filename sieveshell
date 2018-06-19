@@ -33,7 +33,7 @@ from __future__ import print_function
 
 __version__ = "0.6.dev0"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__copyright__ = "Copyright (C) 2003-2016 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = "Copyright (C) 2003-2018 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
 
 from netrc import netrc
