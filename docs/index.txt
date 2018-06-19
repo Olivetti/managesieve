@@ -14,6 +14,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
    :maxdepth: 2
 
    Installation
+   Development
 
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
@@ -30,10 +31,6 @@ python-managesieve is a pure `Python <http://www.python.org/>`_ module
 implementing the ManageSieve client protocol. It also includes an user
 application (the interactive `sieveshell`).
 
-..
-  Find more info here:
-  * [[path:download|Downloads]]
-  * If you want to report an issue - please refer to the [[path:issues|issue tracker]].
 
 What is this ManageSieve thing?
 ====================================
@@ -64,39 +61,6 @@ One can
 
 `sieveshell` is useful for user who wish to manage sieve scripts
 without installing a fat GUI-based mail client.
-
-
-Development
-====================
-
-Source Code Repository
-----------------------------
-
-The source of `managesieve` is maintained at
-`GitLab <https://gitlab.com>`_. Patches and pull-requests are hearty
-welcome.
-
-* You may browse the current repository at the
-  `Repository Browser 
-  <https://gitlab.com/htgoebel/managesieve>`_
-
-* Or you may check out the current version by running::
-
-    git clone https://gitlab.com/htgoebel/managesieve.git
-
-Issue Tracker
-----------------
-
-Please submit bugs and enhancements to the Issue Tracker at
-<https://gitlab.com/htgoebel/managesieve/issues>.
-
-
-Historical Note
-====================
-
-`managesieve` was hosted at origo.ethz.ch, but this site closed
-at May 2012. Then `managesieve` was hosted gitorious.org,
-which was closed May 2015.
 
 
 ..
