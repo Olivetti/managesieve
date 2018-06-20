@@ -15,6 +15,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 
    Installation
    Development
+   Changes
 
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
