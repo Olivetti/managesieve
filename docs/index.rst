@@ -4,14 +4,18 @@
 `managesieve`
 ===============
 
--------------------------------------------------------------------------------------------------------------------------------------
-A ManageSieve client library for remotely managing Sieve scripts, including an user application (the interactive 'sieveshell').
--------------------------------------------------------------------------------------------------------------------------------------
+.. highlights::
+
+   A pure Python application (the interactive `sieveshell`) for
+   remotely managing Sieve scripts. For developers it includes a
+   Python module implementing the ManageSieve client protocol
+   (:rfc:`5804`).
 
 .. Contents:
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
    Installation
    Development
@@ -29,30 +33,17 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 __ http://www.opensource.org/licenses/PythonSoftFoundation.html
 __ http://opensource.org/licenses/GPL-3.0
 
-python-managesieve is a pure `Python <http://www.python.org/>`_ module
-implementing the ManageSieve client protocol. It also includes an user
-application (the interactive `sieveshell`).
 
-
-What is this ManageSieve thing?
-====================================
-
-The ManageSieve protocol allows managing Sieve scripts on a remote
-mail server. Sieve scripts allow users to filter incoming email on the
-mail server. These servers are commonly sealed so users cannot log
-into them, yet users must be able to update their scripts on them.
-This is what for the "ManageSieve" protocol is. For more information
-about the ManageSieve protocol see `the ManageSieve Internet draft
-<http://www.ietf.org/internet-drafts/draft-martin-managesieve-07.txt>`_.
-
-This module allows accessing a Sieve-Server for managing Sieve scripts
-there. It is accompanied by a simple yet functional user application
-`sieveshell`.
-
-What is this `sieveshell`?
+What is the `sieveshell`?
 ================================
 
-`sieveshell` is a command line tool for talking to the Sieve server.
+`sieveshell` is a command line tool for talking to a remote
+mail server. Sieve scripts allow users to filter incoming email on the
+mail server.
+Typically these servers are sealed so users cannot log
+into them, yet users must be able to update their scripts on them.
+This is what `sieveshell` is for.
+
 One can
 
 * list scripts on the server
@@ -61,8 +52,19 @@ One can
 * delete scripts stored on the server
 * activate and deactivate scripts
 
-`sieveshell` is useful for user who wish to manage sieve scripts
+`sieveshell` is simple yet functional and
+useful for user who wish to manage sieve scripts
 without installing a fat GUI-based mail client.
+
+
+What is managesieve?
+====================================
+
+The |managesieve| pure Python module is
+a ManageSieve (:rfc:`5804`) client library
+for managing Sieve scripts on a mail server,
+more specific the `Sieve` server.
+For API details see the :ref:`Module Documentation`.
 
 
 ..
@@ -73,3 +75,5 @@ without installing a fat GUI-based mail client.
   * :ref:`modindex`
   * :ref:`search`
 
+
+.. include:: _common_definitions.txt
