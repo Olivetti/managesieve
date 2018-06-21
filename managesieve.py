@@ -151,13 +151,13 @@ class MANAGESIEVE:
 
     Instantiate with: MANAGESIEVE(host [, port])
 
-        host - host's name (default: localhost)
-        port - port number (default: standard Sieve port).
+        :host: host's name (default: localhost)
+        :port: port number (default: standard Sieve port).
         
-        use_tls  - switch to TLS automatically,
+        :use_tls:  switch to TLS automatically,
                    fail if the server doesn't support STARTTLS
-        keyfile  - keyfile to use for TLS (optional)
-        certfile - certfile to use for TLS (optional)
+        :keyfile:  keyfile to use for TLS (optional)
+        :certfile: certfile to use for TLS (optional)
 
     All Sieve commands are supported by methods of the same
     name (in lower-case).
