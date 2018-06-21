@@ -16,11 +16,19 @@
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :caption: User Documentation
 
    Installation
+   Changes
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Developer Documentation
+
    Development
    modules
-   Changes
+
 
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
