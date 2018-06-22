@@ -19,6 +19,7 @@
    :caption: User Documentation
 
    Installation
+   Dontate <Donate>
    Changes
 
 .. toctree::
