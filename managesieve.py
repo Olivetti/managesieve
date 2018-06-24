@@ -1,7 +1,11 @@
 # -*- ispell-local-dictionary: "american" -*-
-"""Sieve management client module
+"""ManageSieve (RFC 5804) client module for remotely managing Sieve Scripts.
 
-A Protocol for Remotely Managing Sieve Scripts, RFC 5804
+
+All Sieve commands are supported by methods of the same name (in
+lower-case). All arguments to commands are converted to strings,
+except for :meth:`authenticate`.
+
 """
 
 __version__ = "0.6.dev0"
@@ -84,7 +88,7 @@ re_esc_quote = re.compile(r'\\([\\"])')
 
 class SSLFakeSocket:
     """A fake socket object that really wraps a SSLObject.
-    
+
     It only supports what is needed in managesieve.
     """
     def __init__(self, realsock, sslobj):
@@ -151,31 +155,20 @@ class MANAGESIEVE:
 
     Instantiate with: MANAGESIEVE(host [, port])
 
-        :host: host's name (default: localhost)
-        :port: port number (default: standard Sieve port).
-        
-        :use_tls:  switch to TLS automatically,
-                   fail if the server doesn't support STARTTLS
-        :keyfile:  keyfile to use for TLS (optional)
-        :certfile: certfile to use for TLS (optional)
-
-    All Sieve commands are supported by methods of the same
-    name (in lower-case).
-
-    Each command returns a tuple: (type, [data, ...]) where 'type'
-    is usually 'OK' or 'NO', and 'data' is either the text from the
-    tagged response, or untagged results from command.
-
-    All arguments to commands are converted to strings, except for
-    AUTHENTICATE.
+    :param host: host's name (default: localhost)
+    :param port: port number (default: standard Sieve port).
+    :param use_tls:  switch to TLS automatically,
+                     fail if the server doesn't support STARTTLS
+    :param keyfile:  keyfile to use for TLS (optional)
+    :param certfile: certfile to use for TLS (optional)
     """
-    
+
     """
     However, the 'password' argument to the LOGIN command is always
     quoted. If you want to avoid having an argument string quoted (eg:
     the 'flags' argument to STORE) then enclose the string in
     parentheses (eg: "(\Deleted)").
-    
+
     Errors raise the exception class <instance>.error("<reason>").
     IMAP4 server errors raise <instance>.abort("<reason>"),
     which is a sub-class of 'error'. Mailbox status changes
@@ -211,7 +204,7 @@ class MANAGESIEVE:
 
         self.response_text = self.response_code = None
         self.__clear_knowledge()
-        
+
         # Open socket to server.
         self._open(host, port)
 
@@ -314,8 +307,8 @@ class MANAGESIEVE:
         Returns (typ) with
            typ  = response type
 
-        The responce code and text may be found in <instance>.response_code
-        and <instance>.response_text, respectivly.
+        The response code and text may be found in :attr:`response_code`
+        and :attr:`response_text`, respectivly.
         """
         return self._command(*args)[0] # only return typ, ignore data
 
@@ -326,8 +319,8 @@ class MANAGESIEVE:
            typ  = response type
            data = list of lists of strings read (only meaningfull if OK)
 
-        The responce code and text may be found in <instance>.response_code
-        and <instance>.response_text, respectivly.
+        The response code and text may be found in :attr:`.response_code`
+        and :attr:`response_text`, respectivly.
         """
         assert isinstance(name, bytes)
         if self.state not in commands[name]:
@@ -349,7 +342,7 @@ class MANAGESIEVE:
             return self._get_response()
         except self.abort as val:
             if __debug__:
-                self.print_log()
+                self._print_log()
             raise
 
 
@@ -376,12 +369,13 @@ class MANAGESIEVE:
 
     def _get_response(self):
         """
-        Returns (typ, data) with
-           typ  = response type
-           data = list of lists of strings read (only meaningfull if OK)
+        :returns: :tuple:(resp, data) with
 
-        The responce code and text may be found in <instance>.response_code
-        and <instance>.response_text, respectivly.
+           :resp: response (OK, NO, BYE)
+           :data: list of lists of strings read (only meaningfull if OK)
+
+        The response code and text may be found in :attr:`response_code`
+        and :attr:`response_text`, respectivly.
         """
 
         """
@@ -459,7 +453,7 @@ class MANAGESIEVE:
                 self._cmd_log_idx = (self._cmd_log_idx+1) % self._cmd_log_len
             log(level, msg, *args)
             
-        def print_log(self):
+        def _print_log(self):
             idx, cnt = self._cmd_log_idx, len(self._cmd_log)
             log(logging.ERROR, 'last %d SIEVE interactions:', cnt)
             idx = idx % cnt
@@ -474,7 +468,13 @@ class MANAGESIEVE:
 
     ### Public methods ###
     def authenticate(self, mechanism, *authobjects):
-        """Authenticate command - requires response processing."""
+        """Authenticate to the server.
+
+        :param str mechanism: authentication mechanism to use
+        :param authobjects: authentication data for this mechanism
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
         # command-authenticate  = "AUTHENTICATE" SP auth-type [SP string]  *(CRLF string)
         # response-authenticate = *(string CRLF) (response-oknobye)
         mech = mechanism.upper()
@@ -507,6 +507,8 @@ class MANAGESIEVE:
     def login(self, auth, user, password):
         """
         Authenticate to the Sieve server using the best mechanism available.
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
         """
         for authmech in AUTHMECHS:
             if authmech in self.loginmechs:
@@ -518,7 +520,10 @@ class MANAGESIEVE:
             raise self.abort('No matching authentication mechanism found.')
 
     def logout(self):
-        """Terminate connection to server."""
+        """Terminate connection to server.
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
         # command-logout        = "LOGOUT" CRLF
         # response-logout       = response-oknobye
         typ = self._simple_command(b'LOGOUT')
@@ -530,9 +535,9 @@ class MANAGESIEVE:
     def listscripts(self):
         """Get a list of scripts on the server.
 
-        (typ, [data]) = <instance>.listscripts()
-
-        if 'typ' is 'OK', 'data' is list of (scriptname, active) tuples.
+        :returns: tuple(response, [data]) --
+                  if `response` is :const:`OK`, `data` is a list of
+                  `(scriptname, active)` tuples.
         """
         # command-listscripts   = "LISTSCRIPTS" CRLF
         # response-listscripts  = *(sieve-name [SP "ACTIVE"] CRLF) response-oknobye
@@ -550,9 +555,10 @@ class MANAGESIEVE:
     def getscript(self, scriptname):
         """Get a script from the server.
 
-        (typ, scriptdata) = <instance>.getscript(scriptname)
+        :param str scriptname: name of script to be retrieved
 
-        'scriptdata' is the script data.
+        :returns: tuple(response, str) --
+                  if `response` is :const:`OK`, `str` is the script content.
         """
         # command-getscript     = "GETSCRIPT" SP sieve-name CRLF
         # response-getscript    = [string CRLF] response-oknobye
@@ -566,7 +572,13 @@ class MANAGESIEVE:
     
 
     def putscript(self, scriptname, scriptdata):
-        """Put a script onto the server."""
+        """Put a script onto the server.
+
+        :param str scriptname: name of script to be retrieved
+        :param str scriptdata: script content
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
         # command-putscript     = "PUTSCRIPT" SP sieve-name SP string CRLF
         # response-putscript    = response-oknobye
         return self._simple_command(b'PUTSCRIPT',
@@ -575,20 +587,37 @@ class MANAGESIEVE:
                                     )
 
     def deletescript(self, scriptname):
-        """Delete a scripts at the server."""
+        """Delete a scripts at the server.
+
+        :param str scriptname: name of script to be deleted
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
         # command-deletescript  = "DELETESCRIPT" SP sieve-name CRLF
         # response-deletescript = response-oknobye
         return self._simple_command(b'DELETESCRIPT', sieve_name(scriptname))
 
 
     def setactive(self, scriptname):
-        """Mark a script as the 'active' one."""
+        """Mark a script as the 'active' one.
+
+        :param str scriptname: name of script to be marked active
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
         # command-setactive     = "SETACTIVE" SP sieve-name CRLF
         # response-setactive    = response-oknobye
         return self._simple_command(b'SETACTIVE', sieve_name(scriptname))
 
 
     def havespace(self, scriptname, size):
+        """Query the server for available space.
+
+        :param str scriptname: name of script to XXX
+        :param int size: XXX
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
         # command-havespace     = "HAVESPACE" SP sieve-name SP number CRLF
         # response-havespace    = response-oknobye
         return self._simple_command(b'HAVESPACE',
@@ -598,13 +627,18 @@ class MANAGESIEVE:
 
     def capability(self):
         """
-        Isse a CAPABILITY command and return the result.
+        Issue a CAPABILITY command and return the result.
         
         As a side-effect, on succes these attributes are (re)set:
-                self.implementation
-                self.loginmechs
-                self.capabilities
-                self.supports_tls
+
+        - :attr:`capabilities` (list of strings)
+        - :attr:`loginmechs` (list of strings)
+        - :attr:`implementation` (string)
+        - :attr:`supports_tls` (boolean)
+
+        :returns: tuple(response, capabilities) --
+                  If `response` is :const:`OK`, `capabilities` is a list
+                  of strings.
         """
         # command-capability    = "CAPABILITY" CRLF
         # response-capability   = *(string [SP string] CRLF) response-oknobye
