@@ -7,7 +7,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 -------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.6
+:Version: 0.7.dev0
 :Copyright:   2003-2018 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
 	      GNU Public Licence v3 (GPLv3)
@@ -32,6 +32,8 @@ Changes since 0.5
 
 * Add support for Python 3. Minimum required Python version is now
   Python 2.7.
+* Homepage is now hosted at https://managesieve.readthedocs.io/
+* Documentation is extended and includes API documentation.
 
 :sieveshell:
    - Security fix: No longer leak environment variable SIEVE_PASSWORD
