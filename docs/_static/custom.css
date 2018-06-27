@@ -1,0 +1,26 @@
+
+div#donations.section > .box1 {
+    width: 50%;
+    border: solid thin lightseagreen;
+    border-radius: 1em;
+    float: right;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+}
+
+div#donations.section > .box1 > .centered {
+    color: seagreen;
+}
+
+div#donations.section > .box2 + * {
+    clear: both;
+}
+
+div#donations.section >ul li {
+    margin-bottom: 0.5em
+}
+
+div#donations.section .figure.align-center {
+	float: left;
+	padding: 0 3em;
+}

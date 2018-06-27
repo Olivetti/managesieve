@@ -3,59 +3,42 @@
 
 """Setup script for the managesieve"""
 
-import ez_setup
-ez_setup.use_setuptools()
 from setuptools import setup
 
 description = "ManageSieve client library for remotely managing Sieve scripts"
 
-from distutils.command.bdist_rpm import bdist_rpm
-
-# patch distutils if it can't cope with the "classifiers" or
-# "download_url" keywords
-import sys
-if sys.version_info < (2,2,3):
-    from distutils.dist import DistributionMetadata
-    DistributionMetadata.classifiers = None
-    DistributionMetadata.download_url = None
-
-install_requires = []
-if sys.version_info < (2,3):
-    install_requires.append('logging')
-
-
-class MyBDist_RPM(bdist_rpm):
-    """Wrapper for 'bdist_rpm' handling 'python2'"""
-    def finalize_options(self):
-        if self.fix_python:
-            import sys
-            if sys.executable.endswith('/python2'):
-                # this should be more sophisticated, but this
-                # works for our needs here
-                self.requires = self.requires.replace('python ', 'python2 ')
-                self.build_requires = self.build_requires.replace('python ',
-                                                                  'python2 ')
-                self.release = (self.release or "1") + 'python2'
-        bdist_rpm.finalize_options(self)
-
+# Read the contents of the README file
+from os import path
+import io
+this_directory = path.abspath(path.dirname(__file__))
+with io.open(path.join(this_directory, 'README.txt'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup (name = "managesieve",
-       version = "0.5",
+       version='0.6',
+       python_requires='>=2.7',
+       setup_requires=["pytest-runner"],
+       tests_require=["pytest"],
        description = description,
-       long_description = open('README.txt').read().strip(),
+       long_description = long_description,
+       long_description_content_type = 'text/x-rst',
        author = "Hartmut Goebel",
        author_email = "h.goebel@crazy-compilers.com",
        #maintainer = "Hartmut Goebel",
        #maintainer_email = "h.goebel@crazy-compilers.com",
-       url = "http://packages.python.org/managesieve",
-       download_url = "http://pypi.python.org/pypi/managesieve",
+       url = "https://managesieve.readthedocs.io/",
+       download_url = "https://pypi.org/project/managesieve",
+       project_urls={
+           'Documentation': 'https://managesieve.readthedocs.io/',
+           'Source Code': 'https://gitlab.com/htgoebel/managesieve/',
+           "Bug Tracker": "https://gitlab.com/htgoebel/managesieve/issues",
+           'Funding': 'http://crazy-compilers.com/donate.html',
+       },
        license = 'Python',
        platforms = ['POSIX'],
        keywords = ['sieve', 'managesieve', 'sieveshell', 'RFC 5804'],
        py_modules = ['managesieve'],
        scripts = ['sieveshell'],
-       install_requires = install_requires,
-       cmdclass = {'bdist_rpm': MyBDist_RPM},
        classifiers = [
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
@@ -65,7 +48,8 @@ setup (name = "managesieve",
           'License :: OSI Approved :: GNU General Public License (GPL)',
           'Natural Language :: English',
           'Operating System :: OS Independent',
-          'Programming Language :: Python',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
           'Topic :: Communications :: Email',
           'Topic :: Software Development :: Libraries :: Python Modules',
           'Topic :: Utilities'
