@@ -1,0 +1,6 @@
+recursive-include docs *
+prune docs/_build
+include HISTORY
+
+exclude projectlogo.*
+exclude .gitignore .gitattributes .dir-locals.el
