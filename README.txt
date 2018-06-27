@@ -32,6 +32,8 @@ Changes since 0.5
 
 * Add support for Python 3. Minimum required Python version is now
   Python 2.7.
+* Homepage is now hosted at https://managesieve.readthedocs.io/
+* Documentation is extended and includes API documentation.
 
 :sieveshell:
    - Security fix: No longer leak environment variable SIEVE_PASSWORD
