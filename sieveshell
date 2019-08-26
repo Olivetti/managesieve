@@ -88,7 +88,9 @@ def cmd_list():
 def cmd_put(filename, scriptname=None):
     """put <filename> [<target name>]
                  - upload script to server"""
-    if not scriptname: scriptname = filename
+    filename = os.path.expanduser(filename)
+    if not scriptname:
+        scriptname = os.path.basename(filename)
     try:
         scriptdata = open(filename).read()
     except IOError as e:
@@ -103,6 +105,7 @@ def cmd_get(scriptname, filename=None):
     res, scriptdata = sieve.getscript(scriptname)
     if res == 'OK':
         if filename:
+            filename = os.path.expanduser(filename)
             try:
                 open(filename, 'w').write(scriptdata)
             except IOError as e:

@@ -1,7 +1,11 @@
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
+:sieveshell:
+
+   - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
+     `filename` . For ``put``, if script-name is not given, the file's
+     basename is used.
 
 
 0.6 (2018-06-27)
