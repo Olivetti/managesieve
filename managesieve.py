@@ -547,7 +547,7 @@ class MANAGESIEVE:
         for dat in data:
             if __debug__:
                 if not len(dat) in (1, 2):
-                    self.error("Unexpected result from LISTSCRIPTS: %r" (dat,))
+                    self.error("Unexpected result from LISTSCRIPTS: %r" % (dat,))
             scripts.append( (dat[0], dat[1] is not None ))
         return typ, scripts
 
