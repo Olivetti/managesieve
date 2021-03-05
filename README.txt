@@ -68,8 +68,7 @@ Copyright and License
 :Copyright: (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 :License for `managesieve`:
-   `Python Software Foundation License
-   <https://opensource.org/licenses/PythonSoftFoundation.html>`_
+   PSF-like License, see enclosed file
 
 :License for 'sieveshell' and test suite: `GPL v3
    <https://opensource.org/licenses/GPL-3.0>`_
