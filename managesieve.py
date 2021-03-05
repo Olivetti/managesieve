@@ -8,7 +8,7 @@ except for :meth:`authenticate`.
 
 """
 
-__version__ = "0.7.dev0"
+__version__ = "0.7"
 __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """

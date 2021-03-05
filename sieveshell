@@ -31,7 +31,7 @@ The following commands are recognized:
 
 from __future__ import print_function
 
-__version__ = "0.7.dev0"
+__version__ = "0.7"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
