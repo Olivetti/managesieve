@@ -8,12 +8,12 @@ except for :meth:`authenticate`.
 
 """
 
-__version__ = "0.6"
+__version__ = "0.7"
 __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """
 
-__copyright__ = "Copyright (C) 2003-2018 by Hartmut Goebel <h.goebel@crazy-compilers.com> and others"
+__copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com> and others"
 __license__ = "Python-2.0 like"
 
 import binascii, re, socket, time, random, sys
@@ -547,7 +547,7 @@ class MANAGESIEVE:
         for dat in data:
             if __debug__:
                 if not len(dat) in (1, 2):
-                    self.error("Unexpected result from LISTSCRIPTS: %r" (dat,))
+                    self.error("Unexpected result from LISTSCRIPTS: %r" % (dat,))
             scripts.append( (dat[0], dat[1] is not None ))
         return typ, scripts
 

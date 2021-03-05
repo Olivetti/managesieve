@@ -7,8 +7,8 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 -------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.6
-:Copyright:   2003-2018 by Hartmut Goebel
+:Version: 0.7
+:Copyright:   2003-2021 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
 	      GNU Public Licence v3 (GPLv3)
 :Homepage:    https://managesieve.readthedocs.io/
@@ -27,30 +27,19 @@ there. It is accompanied by a simple yet functional user application
 'sieveshell'.
 
 
-Changes since 0.5
+Changes since 0.6
 ~~~~~~~~~~~~~~~~~~~~~
 
-* Add support for Python 3. Minimum required Python version is now
-  Python 2.7.
-* Homepage is now hosted at https://managesieve.readthedocs.io/
-* Documentation is extended and includes API documentation.
+* Minimum required Python version is now Python 3.6.
 
 :sieveshell:
-   - Security fix: No longer leak environment variable SIEVE_PASSWORD
-     when displaying usage help.
-   - Per default enforce secure transport. Suggested by Jan Zerebecki.
-   - Add possibility to use username/password from the .netrc file.
-     The order is: command line options -> environment variables ->
-     .netrc file -> ask user. Thanks to Grégoire Détrez.
+
+   - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
+     `filename` . For ``put``, if script-name is not given, the file's
+     basename is used.
 
 :managesieve:
-   - Fail if TLS is requested, but server doesn't support TLS.
-     Suggested by Jan Zerebecki.
-
-:project:
-   - Rework and enhance test-suite. Thanks to Matěj Cepl for nudging
-     to proper pytest integration.
-   - Lots if internal cleanup.
+   - Fix error when constructing debug error message.
 
 
 Requirements and Installation
@@ -76,7 +65,7 @@ Not yet implemented
 Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Copyright: (C) 2003-2018 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Copyright: (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 :License for `managesieve`:
    `Python Software Foundation License

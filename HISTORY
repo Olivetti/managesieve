@@ -1,3 +1,16 @@
+0.7 (2021-03-05)
+----------------
+
+:sieveshell:
+
+   - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
+     `filename` . For ``put``, if script-name is not given, the file's
+     basename is used.
+
+:managesieve:
+   - Fix error when constructing debug error message.
+
+
 0.6 (2018-06-27)
 ----------------
 
