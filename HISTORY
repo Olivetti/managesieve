@@ -7,6 +7,9 @@
      `filename` . For ``put``, if script-name is not given, the file's
      basename is used.
 
+:managesieve:
+   - Fix error when constructing debug error message.
+
 
 0.6 (2018-06-27)
 ----------------
