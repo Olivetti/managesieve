@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- ispell-local-dictionary: "american" -*-
+# SPDX-License-Identifier: GPL-3.0-only
 
 """
 sieveshell - remotely manipulate sieve scripts
