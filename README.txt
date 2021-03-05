@@ -8,7 +8,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
 :Version: 0.7.dev0
-:Copyright:   2003-2018 by Hartmut Goebel
+:Copyright:   2003-2021 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
 	      GNU Public Licence v3 (GPLv3)
 :Homepage:    https://managesieve.readthedocs.io/
@@ -76,7 +76,7 @@ Not yet implemented
 Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Copyright: (C) 2003-2018 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Copyright: (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 :License for `managesieve`:
    `Python Software Foundation License
