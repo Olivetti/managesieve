@@ -7,6 +7,7 @@ import glob
 import os
 import shutil
 import subprocess
+import sys
 import zest.releaser.utils
 
 
@@ -17,8 +18,15 @@ def sign_release(data):
     dist_dir = os.path.join(data['tagdir'], 'dist')
     cmd = ['gpg', '--detach-sign', '--armor']
     codesigning_id = os.getenv("CODESIGNING_ID")
+    if not codesigning_id:
+        rc, codesigning_id = subprocess.getstatusoutput(
+            "git config --get user.signingkey")
+        if rc:
+            raise SystemExit(f"ERROR in sign_release hook: {codesigning_id}")
+            codesigning_id = None
     if codesigning_id:
         print("Using gpg identity", codesigning_id, "for signing.")
+        print()
         cmd.extend(['--local-user', codesigning_id])
     # Sign all files in the 'dist' directory.
     for f in list(os.listdir(dist_dir)):
