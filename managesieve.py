@@ -31,7 +31,7 @@ except ImportError:
 # only used for assertion. TODO: Remove
 try:
     unicode
-except:
+except NameError:
     unicode = str
 
 
