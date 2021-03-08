@@ -168,7 +168,7 @@ class MANAGESIEVE:
     However, the 'password' argument to the LOGIN command is always
     quoted. If you want to avoid having an argument string quoted (eg:
     the 'flags' argument to STORE) then enclose the string in
-    parentheses (eg: "(\Deleted)").
+    parentheses (eg: "(\\Deleted)").
 
     Errors raise the exception class <instance>.error("<reason>").
     IMAP4 server errors raise <instance>.abort("<reason>"),
