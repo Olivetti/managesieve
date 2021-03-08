@@ -343,7 +343,7 @@ class MANAGESIEVE:
             except (socket.error, OSError) as val:
                 raise self.abort('socket error: %s' % val)
             return self._get_response()
-        except self.abort as val:
+        except self.abort:
             if __debug__:
                 self._print_log()
             raise
