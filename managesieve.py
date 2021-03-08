@@ -433,7 +433,7 @@ class MANAGESIEVE:
                     dat.append(None)
                 data.append(dat)
                 resp = self._get_line()
-        return self.error('Should not come here')
+        raise self.error('Should not come here')
 
 
     def _match(self, cre, s):
@@ -548,7 +548,8 @@ class MANAGESIEVE:
         for dat in data:
             if __debug__:
                 if not len(dat) in (1, 2):
-                    self.error("Unexpected result from LISTSCRIPTS: %r" % (dat,))
+                    raise self.error("Unexpected result from LISTSCRIPTS: %r"
+                                     % (dat,))
             scripts.append( (dat[0], dat[1] is not None ))
         return typ, scripts
 
@@ -567,7 +568,7 @@ class MANAGESIEVE:
         typ, data = self._command(b'GETSCRIPT', sieve_name(scriptname))
         if typ != 'OK': return typ, data
         if len(data) != 1:
-            self.error('GETSCRIPT returned more than one string/script')
+            raise self.error('GETSCRIPT returned more than one string/script')
         # todo: decode data?
         return typ, data[0][0]
     
