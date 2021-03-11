@@ -4,8 +4,24 @@
 - Nothing changed yet.
 
 
+0.7.1 (2021-03-11)
+------------------
+
+Author: Hartmut Goebel, Thanks to Wouter Bolsterlee.
+
+:managesieve:
+   - Actually raise debug-only exceptions instead of jsut returning them.
+   - Fix invalid string-escape in docstring.
+   - Some minor clean-up.
+
+:sieveshell:
+   - Some minor clean-up.
+
+
 0.7 (2021-03-05)
 ----------------
+
+Author: Hartmut Goebel
 
 :sieveshell:
 
