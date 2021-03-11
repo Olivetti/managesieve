@@ -15,12 +15,6 @@ import pytest
 import managesieve
 
 
-try:
-    unicode
-except:
-    unicode = str
-
-
 def make_string(string):
     assert isinstance(string, str)
     # According to RFC 5804, sec 1.4 all strings are UTF-8 encoded
