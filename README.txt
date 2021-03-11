@@ -33,13 +33,16 @@ Changes since 0.6
 * Minimum required Python version is now Python 3.6.
 
 :sieveshell:
-
    - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
      `filename` . For ``put``, if script-name is not given, the file's
      basename is used.
+   - Some minor clean-up.
 
 :managesieve:
    - Fix error when constructing debug error message.
+   - Actually raise debug-only exceptions instead of jsut returning them.
+   - Fix invalid string-escape in docstring.
+   - Some minor clean-up.
 
 
 Requirements and Installation
