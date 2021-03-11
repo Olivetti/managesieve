@@ -28,12 +28,6 @@ try:
 except ImportError:
     ssl_wrap_socket = socket.ssl
 
-# only used for assertion. TODO: Remove
-try:
-    unicode
-except NameError:
-    unicode = str
-
 
 __all__ = [ 'MANAGESIEVE', 'SIEVE_PORT', 'OK', 'NO', 'BYE',
             'INFO', 'DEBUG', 'DEBUG0', 'DEBUG1', 'DEBUG2', 'DEBUG3']
@@ -287,7 +281,7 @@ class MANAGESIEVE:
         line = self.file.readline()
         assert isinstance(line, bytes)
         line = line.decode('utf-8')
-        assert isinstance(line, unicode)
+        assert isinstance(line, str)
         return line
 
     def _send(self, data):
@@ -297,7 +291,7 @@ class MANAGESIEVE:
         line = self._readline()
         if not line:
             raise self.abort('socket error: EOF')
-        assert isinstance(line, unicode)
+        assert isinstance(line, str)
         # Protocol mandates all lines terminated by CRLF
         line = line[:-2]
         if __debug__:
@@ -350,7 +344,7 @@ class MANAGESIEVE:
 
 
     def _readstring(self, data):
-        assert isinstance(data, unicode)
+        assert isinstance(data, str)
         if data.startswith(" ") : # space -> error
             raise self.error('Unexpected space: %r' % data)
         elif data.startswith('"'): # handle double quote:
@@ -405,7 +399,7 @@ class MANAGESIEVE:
         """
         data = [] ; dat = None
         resp = self._get_line()
-        assert isinstance(resp, unicode)
+        assert isinstance(resp, str)
         while 1:
             if self._match(Oknobye, resp):
                 typ, code, dat = self.mo.group('type','code','data')
