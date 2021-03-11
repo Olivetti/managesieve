@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# SPDX-License-Identifier: GPL-3.0-only
 """
 Unit tests for managesieve.py
 """
@@ -14,12 +15,6 @@ import pytest
 import managesieve
 
 
-try:
-    unicode
-except:
-    unicode = str
-
-
 def make_string(string):
     assert isinstance(string, str)
     # According to RFC 5804, sec 1.4 all strings are UTF-8 encoded
@@ -27,10 +22,13 @@ def make_string(string):
     return b''.join((('{%d+}' % len(octets)).encode('ascii'),
                      CRLF, octets))
 
-def cmd_str(*args):
-    args = [a.encode('utf-8') if isinstance(a, unicode) else a
-            for a in args]
-    return b' '.join(args)
+
+def cmd_str(cmd, string=None, thirdarg=None):
+    args = (cmd.encode('utf-8'),
+            string.encode('utf-8') if string is not None else None,
+            thirdarg if thirdarg is not None else None)  # bytes or None
+    return b' '.join(a for a in args if a is not None)
+
 
 def __makeResponses(responseTuples):
     """
@@ -261,7 +259,7 @@ def testSimpleCommands1(testSieve, exp_res, exp_code, exp_text, send_cmd):
 @pytest.mark.parametrize("exp_res, exp_code, exp_text, send_cmd", Responses)
 def testSimpleCommands2(testSieve, exp_res, exp_code, exp_text, send_cmd):
     _test_simple(testSieve, exp_res, exp_code, exp_text, send_cmd,
-        cmd_str('HAVESPACE', '"%s"' % SieveNames[0], '9999'),
+        cmd_str('HAVESPACE', '"%s"' % SieveNames[0], b'9999'),
         testSieve.havespace, SieveNames[0], 9999)
 
 

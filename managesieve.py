@@ -1,4 +1,5 @@
 # -*- ispell-local-dictionary: "american" -*-
+# SPDX-License-Identifier: Python-2.0-like
 """ManageSieve (RFC 5804) client module for remotely managing Sieve Scripts.
 
 
@@ -8,7 +9,7 @@ except for :meth:`authenticate`.
 
 """
 
-__version__ = "0.7"
+__version__ = "0.7.1"
 __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """
@@ -16,20 +17,16 @@ Ulrich Eck <ueck@net-labs.de> April 2001
 __copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com> and others"
 __license__ = "Python-2.0 like"
 
-import binascii, re, socket, time, random, sys
+import binascii
 import logging
+import re
+import socket
 from logging import log
 try:
     import ssl
     ssl_wrap_socket = ssl.wrap_socket
 except ImportError:
     ssl_wrap_socket = socket.ssl
-
-# only used for assertion. TODO: Remove
-try:
-    unicode
-except:
-    unicode = str
 
 
 __all__ = [ 'MANAGESIEVE', 'SIEVE_PORT', 'OK', 'NO', 'BYE',
@@ -167,7 +164,7 @@ class MANAGESIEVE:
     However, the 'password' argument to the LOGIN command is always
     quoted. If you want to avoid having an argument string quoted (eg:
     the 'flags' argument to STORE) then enclose the string in
-    parentheses (eg: "(\Deleted)").
+    parentheses (eg: "(\\Deleted)").
 
     Errors raise the exception class <instance>.error("<reason>").
     IMAP4 server errors raise <instance>.abort("<reason>"),
@@ -284,7 +281,7 @@ class MANAGESIEVE:
         line = self.file.readline()
         assert isinstance(line, bytes)
         line = line.decode('utf-8')
-        assert isinstance(line, unicode)
+        assert isinstance(line, str)
         return line
 
     def _send(self, data):
@@ -294,7 +291,7 @@ class MANAGESIEVE:
         line = self._readline()
         if not line:
             raise self.abort('socket error: EOF')
-        assert isinstance(line, unicode)
+        assert isinstance(line, str)
         # Protocol mandates all lines terminated by CRLF
         line = line[:-2]
         if __debug__:
@@ -340,14 +337,14 @@ class MANAGESIEVE:
             except (socket.error, OSError) as val:
                 raise self.abort('socket error: %s' % val)
             return self._get_response()
-        except self.abort as val:
+        except self.abort:
             if __debug__:
                 self._print_log()
             raise
 
 
     def _readstring(self, data):
-        assert isinstance(data, unicode)
+        assert isinstance(data, str)
         if data.startswith(" ") : # space -> error
             raise self.error('Unexpected space: %r' % data)
         elif data.startswith('"'): # handle double quote:
@@ -402,7 +399,7 @@ class MANAGESIEVE:
         """
         data = [] ; dat = None
         resp = self._get_line()
-        assert isinstance(resp, unicode)
+        assert isinstance(resp, str)
         while 1:
             if self._match(Oknobye, resp):
                 typ, code, dat = self.mo.group('type','code','data')
@@ -432,7 +429,7 @@ class MANAGESIEVE:
                     dat.append(None)
                 data.append(dat)
                 resp = self._get_line()
-        return self.error('Should not come here')
+        raise self.error('Should not come here')
 
 
     def _match(self, cre, s):
@@ -547,7 +544,8 @@ class MANAGESIEVE:
         for dat in data:
             if __debug__:
                 if not len(dat) in (1, 2):
-                    self.error("Unexpected result from LISTSCRIPTS: %r" % (dat,))
+                    raise self.error("Unexpected result from LISTSCRIPTS: %r"
+                                     % (dat,))
             scripts.append( (dat[0], dat[1] is not None ))
         return typ, scripts
 
@@ -566,7 +564,7 @@ class MANAGESIEVE:
         typ, data = self._command(b'GETSCRIPT', sieve_name(scriptname))
         if typ != 'OK': return typ, data
         if len(data) != 1:
-            self.error('GETSCRIPT returned more than one string/script')
+            raise self.error('GETSCRIPT returned more than one string/script')
         # todo: decode data?
         return typ, data[0][0]
     

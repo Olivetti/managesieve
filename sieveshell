@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- ispell-local-dictionary: "american" -*-
+# SPDX-License-Identifier: GPL-3.0-only
 
 """
 sieveshell - remotely manipulate sieve scripts
@@ -29,9 +30,7 @@ The following commands are recognized:
   quit             - quit
 """
 
-from __future__ import print_function
-
-__version__ = "0.7"
+__version__ = "0.7.1"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
@@ -41,10 +40,6 @@ import sys, getpass, inspect, managesieve, os
 import subprocess
 import readline
 
-try:
-    stdin_input = raw_input
-except NameError:
-    stdin_input = input
 
 sieve = None
 
@@ -122,7 +117,7 @@ def cmd_edit(scriptname):
 
     def Choice(msg, choices):
         while 1:
-            answer = stdin_input(msg + ' ').strip()[:1].lower()
+            answer = input(msg + ' ').strip()[:1].lower()
             i = choices.find(answer)
             if i >= 0:
                 # valid answer
@@ -137,7 +132,7 @@ def cmd_edit(scriptname):
         if not YesNoQuestion('%s Save script to file?' % msg):
             return
         scriptname = os.path.join(os.getcwd(), scriptname)
-        filename = stdin_input('Enter filename (default %s):' % scriptname)
+        filename = input('Enter filename (default %s):' % scriptname)
         if filename == '':
             filename = scriptname
         scriptdata = open(tmpname).read()
@@ -247,7 +242,7 @@ def shell(auth, user=None, passwd=None, realm=None,
         """Command loop: read and execute lines from stdin."""
         global sieve
         while 1:
-            line = stdin_input('> ')
+            line = input('> ')
             if not line:
                 # EOF/control-d
                 cmd_quit()

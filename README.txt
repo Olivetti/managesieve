@@ -7,7 +7,7 @@ A ManageSieve client library for remotely managing Sieve scripts, including an u
 -------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.7
+:Version: 0.7.1
 :Copyright:   2003-2021 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
 	      GNU Public Licence v3 (GPLv3)
@@ -33,13 +33,16 @@ Changes since 0.6
 * Minimum required Python version is now Python 3.6.
 
 :sieveshell:
-
    - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
      `filename` . For ``put``, if script-name is not given, the file's
      basename is used.
+   - Some minor clean-up.
 
 :managesieve:
    - Fix error when constructing debug error message.
+   - Actually raise debug-only exceptions instead of jsut returning them.
+   - Fix invalid string-escape in docstring.
+   - Some minor clean-up.
 
 
 Requirements and Installation
@@ -68,8 +71,7 @@ Copyright and License
 :Copyright: (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 :License for `managesieve`:
-   `Python Software Foundation License
-   <https://opensource.org/licenses/PythonSoftFoundation.html>`_
+   PSF-like License, see enclosed file
 
 :License for 'sieveshell' and test suite: `GPL v3
    <https://opensource.org/licenses/GPL-3.0>`_
