@@ -53,7 +53,7 @@ AUTH_LOGIN = "LOGIN"
 AUTHMECHS = [AUTH_PLAIN, AUTH_LOGIN]
 
 # todo: return results or raise exceptions?
-# todo: on result 'BYE' quit immediatly
+# todo: on result 'BYE' quit immediately
 # todo: raise exception on 'BYE'?
 
 #    Commands
@@ -305,7 +305,7 @@ class MANAGESIEVE:
            typ  = response type
 
         The response code and text may be found in :attr:`response_code`
-        and :attr:`response_text`, respectivly.
+        and :attr:`response_text`, respectively.
         """
         return self._command(*args)[0] # only return typ, ignore data
 
@@ -314,10 +314,10 @@ class MANAGESIEVE:
         """
         Returns (typ, data) with
            typ  = response type
-           data = list of lists of strings read (only meaningfull if OK)
+           data = list of lists of strings read (only meaningful if OK)
 
         The response code and text may be found in :attr:`.response_code`
-        and :attr:`response_text`, respectivly.
+        and :attr:`response_text`, respectively.
         """
         assert isinstance(name, bytes)
         if self.state not in commands[name]:
@@ -369,10 +369,10 @@ class MANAGESIEVE:
         :returns: :tuple:(resp, data) with
 
            :resp: response (OK, NO, BYE)
-           :data: list of lists of strings read (only meaningfull if OK)
+           :data: list of lists of strings read (only meaningful if OK)
 
         The response code and text may be found in :attr:`response_code`
-        and :attr:`response_text`, respectivly.
+        and :attr:`response_text`, respectively.
         """
 
         """
@@ -627,7 +627,7 @@ class MANAGESIEVE:
         """
         Issue a CAPABILITY command and return the result.
         
-        As a side-effect, on succes these attributes are (re)set:
+        As a side-effect, on success these attributes are (re)set:
 
         - :attr:`capabilities` (list of strings)
         - :attr:`loginmechs` (list of strings)

@@ -40,7 +40,7 @@ Changes since 0.6
 
 :managesieve:
    - Fix error when constructing debug error message.
-   - Actually raise debug-only exceptions instead of jsut returning them.
+   - Actually raise debug-only exceptions instead of just returning them.
    - Fix invalid string-escape in docstring.
    - Some minor clean-up.
 
