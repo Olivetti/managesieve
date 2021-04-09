@@ -6,7 +6,7 @@
 A ManageSieve client library for remotely managing Sieve scripts, including an user application (the interactive 'sieveshell').
 -------------------------------------------------------------------------------------------------------------------------------------
 
-:Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
+:Author:  Hartmut Goebel <h.goebel@crazy-compilers.com>
 :Version: 0.8.dev0
 :Copyright:   2003-2021 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
