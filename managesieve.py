@@ -59,16 +59,17 @@ AUTHMECHS = [AUTH_PLAIN, AUTH_LOGIN]
 #    Commands
 commands = {
     # name            valid states
-    b'STARTTLS':     ('NONAUTH',),
-    b'AUTHENTICATE': ('NONAUTH',),
-    b'LOGOUT':       ('NONAUTH', 'AUTH', 'LOGOUT'),
-    b'CAPABILITY':   ('NONAUTH', 'AUTH'),
-    b'GETSCRIPT':    ('AUTH', ),
-    b'PUTSCRIPT':    ('AUTH', ),
-    b'SETACTIVE':    ('AUTH', ),
-    b'DELETESCRIPT': ('AUTH', ),
-    b'LISTSCRIPTS':  ('AUTH', ),
-    b'HAVESPACE':    ('AUTH', ),
+    b'STARTTLS':       ('NONAUTH',),
+    b'AUTHENTICATE':   ('NONAUTH',),
+    b'UNAUTHENTICATE': ('AUTH',),
+    b'LOGOUT':         ('NONAUTH', 'AUTH', 'LOGOUT'),
+    b'CAPABILITY':     ('NONAUTH', 'AUTH'),
+    b'GETSCRIPT':      ('AUTH', ),
+    b'PUTSCRIPT':      ('AUTH', ),
+    b'SETACTIVE':      ('AUTH', ),
+    b'DELETESCRIPT':   ('AUTH', ),
+    b'LISTSCRIPTS':    ('AUTH', ),
+    b'HAVESPACE':      ('AUTH', ),
     }
 
 ### needed
@@ -498,6 +499,18 @@ class MANAGESIEVE:
                                   sieve_name(mech), *authobjects)
         if typ == 'OK':
             self.state = 'AUTH'
+        return typ
+
+    def unauthenticate(self):
+        """Leave the authenticated state.
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
+        # command-putscript     = "PUTSCRIPT" SP sieve-name SP string CRLF
+        # response-putscript    = response-oknobye
+        typ, data = self._command(b'UNAUTHENTICATE')
+        if typ == 'OK':
+            self.state = 'NONAUTH'
         return typ
 
 
