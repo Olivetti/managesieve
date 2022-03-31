@@ -22,7 +22,7 @@ Instructions for Windows Users
 
      pip install managesieve
 
-   Then run the console command ``managesieve --help`` to get detailed help.
+   Then run the console command ``sieveshell --help`` to get detailed help.
 
    If the command ``pip`` is unknown to you system, please refer to the
    `pip homepage <https://pip.pypa.io/en/stable/installing/>`_ for help.
