@@ -99,33 +99,14 @@ class SSLFakeSocket:
 
     sendall = send
 
-    def close(self):
-        self.realsock.close()
-
-class SSLFakeFile:
-    """A fake file like object that really wraps a SSLObject.
-
-    It only supports what is needed in managesieve.
-    """
-    def __init__(self, sslobj):
-        self.sslobj = sslobj
-
-    def readline(self):
-        str = b""
-        chr = None
-        while chr != b"\n":
-            chr = self.sslobj.read(1)
-            str += chr
-        return str
-
-    def read(self, size=0):
-        if size == 0:
+    def recv(self, bufsize):
+        if bufsize == 0:
             return b''
         else:
-            return self.sslobj.read(size)
+            return self.sslobj.read(bufsize)
 
     def close(self):
-        pass
+        self.realsock.close()
 
 
 def sieve_name(name):
@@ -159,6 +140,8 @@ class MANAGESIEVE:
                      fail if the server doesn't support STARTTLS
     :param keyfile:  keyfile to use for TLS (optional)
     :param certfile: certfile to use for TLS (optional)
+    :param timeout:  If not None, socket timeout in seconds (refer to python's
+                     `socket.settimeout` for details)
     """
 
     """
@@ -195,10 +178,11 @@ class MANAGESIEVE:
         self.supports_tls = 0
 
     def __init__(self, host='', port=SIEVE_PORT,
-                 use_tls=False, keyfile=None, certfile=None):
+                 use_tls=False, keyfile=None, certfile=None, timeout=None):
         self.host = host
         self.port = port
         self.state = 'NONAUTH'
+        self.timeout = timeout
 
         self.response_text = self.response_code = None
         self.__clear_knowledge()
@@ -259,27 +243,33 @@ class MANAGESIEVE:
 
     #### Private methods ###
     def _open(self, host, port):
-        """Setup 'self.sock' and 'self.file'."""
+        """Setup 'self.sock'."""
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if self.timeout is not None:
+            self.sock.settimeout(self.timeout)
         self.sock.connect((self.host, self.port))
-        self.file = self.sock.makefile('rb')
 
     def _close(self):
-        self.file.close()
         self.sock.close()
 
     def _read(self, size):
         """Read 'size' bytes from remote."""
         data = b""
         while len(data) < size:
-            data += self.file.read(size - len(data))
+            # NOTE: Before python 3.5 this could raise an InterruptedError (and
+            # would have to be retried in such a case)
+            data += self.sock.recv(size - len(data))
         return data
 
     def _readline(self):
-        """Read line from remote."""
-        # Continuation bytes are never 7-bit-ascii characters, so
-        # using readline() scanning for CR and LR is okay here.
-        line = self.file.readline()
+        """Read one line from remote."""
+        line = b''
+        last = (None, None)
+        # Protocol mandates all lines terminated by CRLF
+        while last != (b'\r', b'\n'):
+            chr = self.sock.recv(1)
+            last = (last[1], chr)
+            line += chr
         assert isinstance(line, bytes)
         line = line.decode('utf-8')
         assert isinstance(line, str)
@@ -290,8 +280,6 @@ class MANAGESIEVE:
 
     def _get_line(self):
         line = self._readline()
-        if not line:
-            raise self.abort('socket error: EOF')
         assert isinstance(line, str)
         # Protocol mandates all lines terminated by CRLF
         line = line[:-2]
@@ -674,7 +662,6 @@ class MANAGESIEVE:
         if typ == 'OK':
             sslobj = ssl_wrap_socket(self.sock, keyfile, certfile)
             self.sock = SSLFakeSocket(self.sock, sslobj)
-            self.file = SSLFakeFile(sslobj)
             # MUST discard knowledge obtained from the server
             self.__clear_knowledge()
             # NB: We did send a BOGUS command here for buggy servers,

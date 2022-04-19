@@ -111,6 +111,16 @@ ResponseTuples = {
 Responses = list(__makeResponses(ResponseTuples))
 print(Responses)
 
+
+class FakeSocket:
+    def __init__(self, sieve4test):
+        self.sieve4test = sieve4test
+
+    def recv(self, size):
+        return self.sieve4test.resp_file.read(size)
+
+
+
 class SIEVEforTest(managesieve.MANAGESIEVE):
     def __init__(self, response_data=None):
         if response_data is None:
@@ -122,6 +132,7 @@ class SIEVEforTest(managesieve.MANAGESIEVE):
     def _open(self, host, port):
         # cmd_file : the buffer where the command is send to
         self.cmd_file = io.BytesIO()
+        self.sock = FakeSocket(self)
         # resp_file: the buffer where the response is read from
         # this will be set up in __set_testdata()
         #self.file = self.resp_file = None
