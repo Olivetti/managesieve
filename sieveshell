@@ -169,6 +169,8 @@ def cmd_edit(scriptname):
             scriptdata = open(filename).read()
             res = sieve.putscript(scriptname, scriptdata)
             if res == 'OK':
+                print('Deleting tempfile.')
+                os.remove(filename)
                 return res
             # res is NO, BYE
             print(res, sieve.response_text or sieve.response_code)
