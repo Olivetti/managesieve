@@ -87,7 +87,7 @@ def cmd_put(filename, scriptname=None):
     if not scriptname:
         scriptname = os.path.basename(filename)
     try:
-        scriptdata = open(filename).read()
+        scriptdata = open(filename, newline='').read()
     except IOError as e:
         print("Can't read local file %s:" % filename, e.args[1])
         return SUPPRESS
@@ -102,7 +102,7 @@ def cmd_get(scriptname, filename=None):
         if filename:
             filename = os.path.expanduser(filename)
             try:
-                open(filename, 'w').write(scriptdata)
+                open(filename, 'w', newline='').write(scriptdata)
             except IOError as e:
                 print("Can't write local file %s:" % filename, e.args[1])
                 return SUPPRESS
@@ -135,8 +135,8 @@ def cmd_edit(scriptname):
         filename = input('Enter filename (default %s):' % scriptname)
         if filename == '':
             filename = scriptname
-        scriptdata = open(tmpname).read()
-        open(filename, 'w').write(scriptdata)
+        scriptdata = open(tmpname, newline='').read()
+        open(filename, 'w', newline='').write(scriptdata)
 
     res, scripts = sieve.listscripts()
     if res != 'OK': return res
@@ -153,7 +153,7 @@ def cmd_edit(scriptname):
 
     import tempfile
     filename = tempfile.mktemp('.siv')
-    open(filename, 'w').write(scriptdata)
+    open(filename, 'w', newline='').write(scriptdata)
 
     editor = os.environ.get('EDITOR', 'vi')
     while 1:
@@ -166,7 +166,7 @@ def cmd_edit(scriptname):
                 continue # re-edit
         # else: editing okay
         while 1:
-            scriptdata = open(filename).read()
+            scriptdata = open(filename, newline='').read()
             res = sieve.putscript(scriptname, scriptdata)
             if res == 'OK':
                 print('Deleting tempfile.')
