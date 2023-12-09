@@ -294,7 +294,7 @@ def shell(auth, user=None, passwd=None, realm=None,
         try:
             if not authmech:
                 # auto-select best method available
-                res = sieve.login(authmech, user, passwd)
+                res = sieve.login(auth, user, passwd)
             elif authmech.upper() == 'LOGIN':
                 # LOGIN does not support authenticator
                 res = sieve.authenticate(authmech, user, passwd)
