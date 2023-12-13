@@ -9,7 +9,7 @@ except for :meth:`authenticate`.
 
 """
 
-__version__ = "0.7.1"
+__version__ = "0.8.dev0"
 __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """
@@ -53,22 +53,23 @@ AUTH_LOGIN = "LOGIN"
 AUTHMECHS = [AUTH_PLAIN, AUTH_LOGIN]
 
 # todo: return results or raise exceptions?
-# todo: on result 'BYE' quit immediatly
+# todo: on result 'BYE' quit immediately
 # todo: raise exception on 'BYE'?
 
 #    Commands
 commands = {
     # name            valid states
-    b'STARTTLS':     ('NONAUTH',),
-    b'AUTHENTICATE': ('NONAUTH',),
-    b'LOGOUT':       ('NONAUTH', 'AUTH', 'LOGOUT'),
-    b'CAPABILITY':   ('NONAUTH', 'AUTH'),
-    b'GETSCRIPT':    ('AUTH', ),
-    b'PUTSCRIPT':    ('AUTH', ),
-    b'SETACTIVE':    ('AUTH', ),
-    b'DELETESCRIPT': ('AUTH', ),
-    b'LISTSCRIPTS':  ('AUTH', ),
-    b'HAVESPACE':    ('AUTH', ),
+    b'STARTTLS':       ('NONAUTH',),
+    b'AUTHENTICATE':   ('NONAUTH',),
+    b'UNAUTHENTICATE': ('AUTH',),
+    b'LOGOUT':         ('NONAUTH', 'AUTH', 'LOGOUT'),
+    b'CAPABILITY':     ('NONAUTH', 'AUTH'),
+    b'GETSCRIPT':      ('AUTH', ),
+    b'PUTSCRIPT':      ('AUTH', ),
+    b'SETACTIVE':      ('AUTH', ),
+    b'DELETESCRIPT':   ('AUTH', ),
+    b'LISTSCRIPTS':    ('AUTH', ),
+    b'HAVESPACE':      ('AUTH', ),
     }
 
 ### needed
@@ -305,7 +306,7 @@ class MANAGESIEVE:
            typ  = response type
 
         The response code and text may be found in :attr:`response_code`
-        and :attr:`response_text`, respectivly.
+        and :attr:`response_text`, respectively.
         """
         return self._command(*args)[0] # only return typ, ignore data
 
@@ -314,10 +315,10 @@ class MANAGESIEVE:
         """
         Returns (typ, data) with
            typ  = response type
-           data = list of lists of strings read (only meaningfull if OK)
+           data = list of lists of strings read (only meaningful if OK)
 
         The response code and text may be found in :attr:`.response_code`
-        and :attr:`response_text`, respectivly.
+        and :attr:`response_text`, respectively.
         """
         assert isinstance(name, bytes)
         if self.state not in commands[name]:
@@ -369,10 +370,10 @@ class MANAGESIEVE:
         :returns: :tuple:(resp, data) with
 
            :resp: response (OK, NO, BYE)
-           :data: list of lists of strings read (only meaningfull if OK)
+           :data: list of lists of strings read (only meaningful if OK)
 
         The response code and text may be found in :attr:`response_code`
-        and :attr:`response_text`, respectivly.
+        and :attr:`response_text`, respectively.
         """
 
         """
@@ -498,6 +499,18 @@ class MANAGESIEVE:
                                   sieve_name(mech), *authobjects)
         if typ == 'OK':
             self.state = 'AUTH'
+        return typ
+
+    def unauthenticate(self):
+        """Leave the authenticated state.
+
+        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        """
+        # command-putscript     = "PUTSCRIPT" SP sieve-name SP string CRLF
+        # response-putscript    = response-oknobye
+        typ, data = self._command(b'UNAUTHENTICATE')
+        if typ == 'OK':
+            self.state = 'NONAUTH'
         return typ
 
 
@@ -627,7 +640,7 @@ class MANAGESIEVE:
         """
         Issue a CAPABILITY command and return the result.
         
-        As a side-effect, on succes these attributes are (re)set:
+        As a side-effect, on success these attributes are (re)set:
 
         - :attr:`capabilities` (list of strings)
         - :attr:`loginmechs` (list of strings)

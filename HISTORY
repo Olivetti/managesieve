@@ -1,10 +1,16 @@
+0.8 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 0.7.1 (2021-03-11)
 ------------------
 
 Author: Hartmut Goebel, Thanks to Wouter Bolsterlee.
 
 :managesieve:
-   - Actually raise debug-only exceptions instead of jsut returning them.
+   - Actually raise debug-only exceptions instead of just returning them.
    - Fix invalid string-escape in docstring.
    - Some minor clean-up.
 

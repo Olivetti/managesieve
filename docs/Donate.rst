@@ -40,7 +40,7 @@ Donations
 * **Bitcoin:** `13qryeeJR5Hc7vR5AmQMWDuLzDEgSDNJi2
   <bitcoin:13qryeeJR5Hc7vR5AmQMWDuLzDEgSDNJi2>`_
 
-* **Bank-Transfer (prefered):**
+* **Bank-Transfer (preferred):**
   If you have the ability to make SEPA bank transfers at a low cost
   please `contact me <mailto:htgoebel@crazy-compilers.com>`_
   and I'll send you the account details.

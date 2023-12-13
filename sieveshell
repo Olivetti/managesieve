@@ -23,14 +23,14 @@ The following commands are recognized:
                    - upload script to server
   get <name> [<filename>]
                    - get script. if no filename display to stdout
-  edit <name>      - edit a script, if not existant, create on save
+  edit <name>      - edit a script, if not existent, create on save
   delete <name>    - delete script.
   activate <name>  - set a script as the active script
   deactivate       - deactivate all scripts
   quit             - quit
 """
 
-__version__ = "0.7.1"
+__version__ = "0.8.dev0"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
@@ -113,7 +113,7 @@ def cmd_get(scriptname, filename=None):
 
 
 def cmd_edit(scriptname):
-    """edit <name>      - edit a script, not existant, create on save"""
+    """edit <name>      - edit a script, not existent, create on save"""
 
     def Choice(msg, choices):
         while 1:
@@ -125,7 +125,7 @@ def cmd_edit(scriptname):
             # else: continue loop
 
     def YesNoQuestion(msg):
-        # Order 'ny' will return boolen values (y=1)
+        # Order 'ny' will return boolean values (y=1)
         return Choice(msg + ' (y/n)', 'ny')
 
     def SaveToFile(msg, scriptname, tmpname):
@@ -159,7 +159,7 @@ def cmd_edit(scriptname):
     while 1:
         res = subprocess.call([editor, filename])
         if res: # error editing
-            if not YesNoQuestion('Editor returned failture. Continue?'):
+            if not YesNoQuestion('Editor returned failure. Continue?'):
                 os.remove(filename)
                 return SUPPRESS
             else:

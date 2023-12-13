@@ -6,8 +6,8 @@
 A ManageSieve client library for remotely managing Sieve scripts, including an user application (the interactive 'sieveshell').
 -------------------------------------------------------------------------------------------------------------------------------------
 
-:Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.7.1
+:Author:  Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Version: 0.8.dev0
 :Copyright:   2003-2021 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
 	      GNU Public Licence v3 (GPLv3)
@@ -40,7 +40,7 @@ Changes since 0.6
 
 :managesieve:
    - Fix error when constructing debug error message.
-   - Actually raise debug-only exceptions instead of jsut returning them.
+   - Actually raise debug-only exceptions instead of just returning them.
    - Fix invalid string-escape in docstring.
    - Some minor clean-up.
 

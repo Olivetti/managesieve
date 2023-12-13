@@ -133,7 +133,7 @@ class SIEVEforTest(managesieve.MANAGESIEVE):
         return self.cmd_file.write(data)
 
     def xx_get_response(self):
-        # a wrapper arround managesieve.SIEVE._get_response()
+        # a wrapper around managesieve.SIEVE._get_response()
         self.cmd_file.truncate()
         self.cmd_file.seek(0)
         result = managesieve.SIEVE._get_response(self)
@@ -163,7 +163,7 @@ def _test_simple(testSieve, exp_res, exp_code, exp_text, send_cmd,
     result = func(*args)
     # check if the correct command data has be send
     assert testSieve._get_command_data() == (exp_cmd_str + CRLF)
-    # check if we've recieved the expected response and data
+    # check if we've received the expected response and data
     assert result == exp_res
     assert testSieve.response_code == exp_code
     assert testSieve.response_text == exp_text
@@ -177,11 +177,11 @@ def _test_with_responce_data(testSieve,
     result, data = func(*args)
     # check if the correct command data has be send
     assert testSieve._get_command_data() == (exp_cmd_str + CRLF)
-    # check if we've recieved the expected response and data
+    # check if we've received the expected response and data
     assert result == exp_res
     assert testSieve.response_code == exp_code
     assert testSieve.response_text == exp_text
-    # check if we've recieved the expected data
+    # check if we've received the expected data
     if result == OK:
         assert data == exp_data
 
