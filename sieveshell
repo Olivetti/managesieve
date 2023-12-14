@@ -7,7 +7,7 @@ sieveshell - remotely manipulate sieve scripts
 
 SYNOPSIS
        sieveshell [--user=user] [--authname=authname] [--realm=realm]
-       [--exec=script] [--auth-mech=mechanism] server
+       [--script=script] [--auth-mech=mechanism] server
 
        sieveshell --help
 
@@ -18,19 +18,17 @@ Use --help to get a list of the currently supported authentication
 mechanisms.
 
 The following commands are recognized:
-  list             - list scripts on server
-  put <filename> [<target name>]
-                   - upload script to server
-  get <name> [<filename>]
-                   - get script. if no filename display to stdout
-  edit <name>      - edit a script, if not existent, create on save
-  delete <name>    - delete script.
-  activate <name>  - set a script as the active script
-  deactivate       - deactivate all scripts
-  quit             - quit
+  list				  - list scripts on server
+  put  <filename> [<target name>] - upload script to server
+  get	   <name> [<filename>]	  - get script. if no filename display to stdout
+  edit	   <name>		  - edit a script, if not existent, create on save
+  delete   <name>		  - delete script.
+  activate <name>		  - set a script as the active script
+  deactivate			  - deactivate all scripts
+  quit				  - quit
 """
 
-__version__ = "0.8.dev0"
+__version__ = "0.8.dev1"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __license__ = "GNU General Public License, version 3"
@@ -40,13 +38,11 @@ import sys, getpass, inspect, managesieve, os
 import subprocess
 import readline
 
-
 sieve = None
 
 class SUPPRESS:
     "token for suppressing 'OK' after cmd execution"
     pass
-
 
 ### the order of functions determines the order for 'help' ###
 
@@ -81,8 +77,7 @@ def cmd_list():
 
 
 def cmd_put(filename, scriptname=None):
-    """put <filename> [<target name>]
-                 - upload script to server"""
+    """put <filename> [<target name>] - upload script to server"""
     filename = os.path.expanduser(filename)
     if not scriptname:
         scriptname = os.path.basename(filename)
@@ -95,8 +90,7 @@ def cmd_put(filename, scriptname=None):
 
 
 def cmd_get(scriptname, filename=None):
-    """get <name> [<filename>]
-                 - get script. if no filename display to stdout"""
+    """get <name> [<filename>] - get script. if no filename display to stdout"""
     res, scriptdata = sieve.getscript(scriptname)
     if res == 'OK':
         if filename:
@@ -148,7 +142,7 @@ def cmd_edit(scriptname):
     else:
         if not YesNoQuestion('Script not on server. Create new?'):
             return 'OK'
-        # else: script will be created when saving        
+        # else: script will be created when saving
         scriptdata = ''
 
     import tempfile
@@ -192,7 +186,7 @@ if os.name != 'posix':
 def cmd_delete(scriptname):
     """delete <name>    - delete script."""
     return sieve.deletescript(scriptname)
-    
+
 
 def cmd_activate(scriptname):
     """activate <name>  - set a script as the active script"""
