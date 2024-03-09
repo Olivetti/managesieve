@@ -506,8 +506,8 @@ class MANAGESIEVE:
 
         :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
         """
-        # command-putscript     = "PUTSCRIPT" SP sieve-name SP string CRLF
-        # response-putscript    = response-oknobye
+        # command-unauthenticate     = "UNAUTHENTICATE" CRLF
+        # response-unauthenticate    = response-oknobye
         typ, data = self._command(b'UNAUTHENTICATE')
         if typ == 'OK':
             self.state = 'NONAUTH'
