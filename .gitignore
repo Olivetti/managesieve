@@ -46,6 +46,8 @@
 
 /nosetests.xml
 /.coverage
+/coverage.xml
+/junit.xml
 /.tox
 /.achievements
 /.installed.cfg
