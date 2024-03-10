@@ -23,10 +23,11 @@ import logging
 import re
 import socket
 import ssl
-from logging import log
 
 __all__ = ['MANAGESIEVE', 'SIEVE_PORT', 'OK', 'NO', 'BYE',
            'INFO', 'DEBUG', 'DEBUG0', 'DEBUG1', 'DEBUG2', 'DEBUG3']
+
+logger = logging.getLogger('managesieve')
 
 # logging levels
 INFO = logging.INFO
@@ -430,16 +431,16 @@ class MANAGESIEVE:
                 # Keep log of last `_cmd_log_len' interactions for debugging.
                 self._cmd_log[self._cmd_log_idx] = (msg, args)
                 self._cmd_log_idx = (self._cmd_log_idx+1) % self._cmd_log_len
-            log(level, msg, *args)
+            logger.log(level, msg, *args)
 
         def _print_log(self):
             idx, cnt = self._cmd_log_idx, len(self._cmd_log)
-            log(logging.ERROR, 'last %d SIEVE interactions:', cnt)
+            logger.log(logging.ERROR, 'last %d SIEVE interactions:', cnt)
             idx = idx % cnt
             while cnt:
                 msg, args = self._cmd_log[idx]
                 try:
-                    log(logging.ERROR, msg, *args)
+                    logger.log(logging.ERROR, msg, *args)
                 except Exception:
                     pass
                 idx = (idx+1) % self._cmd_log_len

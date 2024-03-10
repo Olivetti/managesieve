@@ -27,6 +27,7 @@
    :hidden:
    :caption: Developer Documentation
 
+   Logging
    Development
    modules
 
