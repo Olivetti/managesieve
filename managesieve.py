@@ -22,14 +22,8 @@ import binascii
 import logging
 import re
 import socket
+import ssl
 from logging import log
-
-try:
-    import ssl
-    ssl_wrap_socket = ssl.wrap_socket
-except ImportError:
-    ssl_wrap_socket = socket.ssl
-
 
 __all__ = ['MANAGESIEVE', 'SIEVE_PORT', 'OK', 'NO', 'BYE',
            'INFO', 'DEBUG', 'DEBUG0', 'DEBUG1', 'DEBUG2', 'DEBUG3']
@@ -655,7 +649,11 @@ class MANAGESIEVE:
         # response-starttls     = response-oknobye
         typ, data = self._command(b'STARTTLS')
         if typ == 'OK':
-            sslobj = ssl_wrap_socket(self.sock, keyfile, certfile)
+            sslcontext = ssl.create_default_context()
+            if certfile:
+                sslcontext.load_cert_chain(certfile, keyfile)
+            sslobj = sslcontext.wrap_socket(
+                self.sock, server_hostname=self.host)
             self.sock = SSLFakeSocket(self.sock, sslobj)
             # MUST discard knowledge obtained from the server
             self.__clear_knowledge()
