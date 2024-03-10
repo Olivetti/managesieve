@@ -44,8 +44,6 @@ def __makeResponses(responseTuples):
             text1 = ('"%s"' % text).encode('utf-8') if text else None
             text2 = make_string(text) if text else None
             res_ = res.encode('utf-8')
-            code_ = code.encode('utf-8') if code else None
-            text_ = text.encode('utf-8') if text else None
             if code and text:
                 # '%s %s "%s"' % (res, code, text)
                 # '%s %s %s'   % (res, code, make_string(text))
@@ -127,30 +125,17 @@ class SIEVEforTest(managesieve.MANAGESIEVE):
             response_data = Responses[0][-1]
         self._set_response_data(response_data)
         managesieve.MANAGESIEVE.__init__(self)
-        #self.state = 'AUTH'
 
     def _open(self, host, port):
         # cmd_file : the buffer where the command is send to
         self.cmd_file = io.BytesIO()
         self.sock = FakeSocket(self)
-        # resp_file: the buffer where the response is read from
-        # this will be set up in __set_testdata()
-        #self.file = self.resp_file = None
 
     def _close(self):
         pass
 
     def _send(self, data):
         return self.cmd_file.write(data)
-
-    def xx_get_response(self):
-        # a wrapper around managesieve.SIEVE._get_response()
-        self.cmd_file.truncate()
-        self.cmd_file.seek(0)
-        result = managesieve.SIEVE._get_response(self)
-        self.resp_file.truncate()
-        self.resp_file.seek(0)
-        return result
 
     def _set_response_data(self, response):
         self.file = self.resp_file = io.BytesIO(response)
