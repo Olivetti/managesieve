@@ -1,5 +1,5 @@
 # -*- ispell-local-dictionary: "american" -*-
-# SPDX-License-Identifier: Python-2.0-like
+# SPDX-License-Identifier: PSF-2.0
 """ManageSieve (RFC 5804) client module for remotely managing Sieve Scripts.
 
 

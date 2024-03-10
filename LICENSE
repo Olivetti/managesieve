@@ -1,6 +1,6 @@
 
 :License for `managesieve`: PSF-like License
-SPDX-License-Identifier: Python-2.0-like
+SPDX-License-Identifier: PSF-2.0
 
 :License for 'sieveshell' and test suite: GPL v3
 SPDX-License-Identifier: GPL-3.0-only
