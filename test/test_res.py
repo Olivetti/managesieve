@@ -25,5 +25,5 @@ ids = [p[0] for p in parameters]
 def test_Oknobye_pattern(string, expected):
     mo = Oknobye.match(string)
     assert mo.group('type', 'code', 'data') == expected
-    expected = dict(zip(('type', 'code','data'), expected))
+    expected = dict(zip(('type', 'code', 'data'), expected))
     assert mo.groupdict() == expected

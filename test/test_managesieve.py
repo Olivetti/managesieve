@@ -59,51 +59,52 @@ def __makeResponses(responseTuples):
             else:
                 yield res, code, text, res_ + CRLF
 
+
 CRLF = b'\r\n'
-OK = 'OK' ; NO = 'NO' ; BYE = 'BYE' # just for ease typing :-)
+OK = 'OK'; NO = 'NO'; BYE = 'BYE'  # noqa:E702  just for ease typing :-)
 
 SieveNames = 'sieve-name1 another_sieve_name'.split()
 Scripts = [
-    ( 'keep ;') ,
-    ( 'if header :contains "Subject" "Test ignore" {'
-      '    reject ;'
-      '}'),
+    ('keep ;'),
+    ('if header :contains "Subject" "Test ignore" {'
+     '    reject ;'
+     '}'),
     ]
 
 ListScripts = [('"%s"' % s).encode('utf-8') for s in SieveNames] + \
               [make_string(s) for s in SieveNames]
-Script_List = [ (s, False) for s in  SieveNames ] * 2
-ListScripts[2] = ListScripts[2] + b" ACTIVE" # set one active
-Script_List[2] = (Script_List[2][0], True)  # set one active
+Script_List = [(s, False) for s in SieveNames] * 2
+ListScripts[2] = ListScripts[2] + b" ACTIVE"  # set one active
+Script_List[2] = (Script_List[2][0], True)    # set one active
 ListScripts = CRLF.join(ListScripts)
 print(ListScripts)
 print(Script_List)
 
-RESP_OKAY      = 'Okay.'
+RESP_OKAY      = 'Okay.'  # noqa:E221
 RESP_CODE_OKAY = 'RESP-OKAY/ALL'
 
-RESP_FAIL      = 'Failed.'
+RESP_FAIL      = 'Failed.'  # noqa:E221
 RESP_CODE_FAIL = 'RESP-FAIL/ALL'
 
-RESP_TIMEOUT       = 'Connection timed out.'
-RESP_CODE_TIMEOUT  = 'RESP-BYE/TIMEOUT'
+RESP_TIMEOUT      = 'Connection timed out.'  # noqa:E221
+RESP_CODE_TIMEOUT = 'RESP-BYE/TIMEOUT'
 
 ResponseTuples = {
-    OK:  [ (None,           None),
-           (None,           RESP_OKAY),
-           (RESP_CODE_OKAY, None),
-           (RESP_CODE_OKAY, RESP_OKAY),
-           ],
-    NO:  [ (None,           None),
-           (None,           RESP_FAIL),
-           (RESP_CODE_FAIL, None),
-           (RESP_CODE_FAIL, RESP_FAIL),
-           ],
-    BYE: [ (None,              None),
-           (None,              RESP_TIMEOUT),
-           (RESP_CODE_TIMEOUT, None),
-           (RESP_CODE_TIMEOUT, RESP_TIMEOUT),
-           ]
+    OK:  [(None,           None),
+          (None,           RESP_OKAY),
+          (RESP_CODE_OKAY, None),
+          (RESP_CODE_OKAY, RESP_OKAY),
+          ],
+    NO:  [(None,           None),
+          (None,           RESP_FAIL),
+          (RESP_CODE_FAIL, None),
+          (RESP_CODE_FAIL, RESP_FAIL),
+          ],
+    BYE: [(None,              None),
+          (None,              RESP_TIMEOUT),
+          (RESP_CODE_TIMEOUT, None),
+          (RESP_CODE_TIMEOUT, RESP_TIMEOUT),
+          ]
     }
 
 Responses = list(__makeResponses(ResponseTuples))
@@ -116,7 +117,6 @@ class FakeSocket:
 
     def recv(self, size):
         return self.sieve4test.resp_file.read(size)
-
 
 
 class SIEVEforTest(managesieve.MANAGESIEVE):
@@ -168,7 +168,7 @@ def _test_simple(testSieve, exp_res, exp_code, exp_text, send_cmd,
 def _test_with_responce_data(testSieve,
             exp_res, exp_code, exp_text, send_cmd,
             send_data, exp_data,
-            exp_cmd_str,func, *args):
+            exp_cmd_str, func, *args):
     testSieve._set_response_data(send_data + CRLF + send_cmd)
     result, data = func(*args)
     # check if the correct command data has be send
@@ -182,7 +182,7 @@ def _test_with_responce_data(testSieve,
         assert data == exp_data
 
 
-#--- basic functions ---
+# --- basic functions ---
 
 def test_init():
     sieve = SIEVEforTest(
@@ -194,13 +194,16 @@ def test_init():
         b'OK\r\n')
     assert sieve.supports_tls
     assert set(sieve.loginmechs) == set("DIGEST-MD5 NTLM LOGIN PLAIN".split())
-    assert set(sieve.capabilities) == set("comparator-i;ascii-numeric fileinto subaddress copy".split())
+    assert set(sieve.capabilities) == set(
+        "comparator-i;ascii-numeric fileinto subaddress copy".split())
+
 
 def test_init_wring_data():
     with pytest.raises(SIEVEforTest.error):
-        sieve = SIEVEforTest(
+        SIEVEforTest(
             b' "IMPLEMENTATION" "Cyrus timsieved 2.4.17"\r\n'
             b'OK\r\n')
+
 
 def test__command():
     sn = managesieve.sieve_name
@@ -210,6 +213,7 @@ def test__command():
     sieve._command(b'STARTTLS', sn("arg1"), sn("arg2"),
                    b"arg3", b"arg4", b"arg5", b"arg6")
 
+
 def test_authenticate_plain1():
     sieve = SIEVEforTest(
         b'"SASL" "LOGIN PLAIN"\r\n'
@@ -217,6 +221,7 @@ def test_authenticate_plain1():
         b'OK\r\n')
     sieve.authenticate('PLAIN', "myname", "mypassword")
     assert sieve.state == 'AUTH'
+
 
 def test_authenticate_plain2():
     sieve = SIEVEforTest(
@@ -226,6 +231,7 @@ def test_authenticate_plain2():
     sieve.authenticate('PLAIN', "myname", "myname", "mypassword")
     assert sieve.state == 'AUTH'
 
+
 def test_authenticate_login():
     sieve = SIEVEforTest(
         b'"SASL" "LOGIN PLAIN"\r\n'
@@ -234,7 +240,8 @@ def test_authenticate_login():
     sieve.authenticate('LOGIN', "myauth", "myname", "mypassword")
     assert sieve.state == 'AUTH'
 
-#--- simple commands ---
+
+# --- simple commands ---
 
 @pytest.mark.parametrize("exp_res, exp_code, exp_text, send_cmd", Responses)
 def test_Logout(testSieve, exp_res, exp_code, exp_text, send_cmd):
@@ -265,12 +272,13 @@ def testListScripts(testSieve, exp_res, exp_code, exp_text, send_cmd):
         ListScripts, Script_List,
         cmd_str('LISTSCRIPTS'),
         testSieve.listscripts)
-        
+
 
 @pytest.mark.parametrize("exp_res, exp_code, exp_text, send_cmd", Responses)
 def testGetscript(testSieve, exp_res, exp_code, exp_text, send_cmd):
     for s in Scripts:
-        _test_with_responce_data(testSieve, exp_res, exp_code, exp_text, send_cmd,
+        _test_with_responce_data(testSieve, exp_res, exp_code, exp_text,
+            send_cmd,
             make_string(s), s,
             cmd_str('GETSCRIPT', '"%s"' % SieveNames[0]),
             testSieve.getscript, SieveNames[0])

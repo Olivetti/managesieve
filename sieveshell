@@ -32,28 +32,33 @@ The following commands are recognized:
 
 __version__ = "0.8.dev0"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__copyright__ = "Copyright (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>"
+__copyright__ = ("Copyright (C) 2003-2021 by Hartmut Goebel "
+                 "<h.goebel@crazy-compilers.com>")
 __license__ = "GNU General Public License, version 3"
 
-from netrc import netrc
-import sys, getpass, inspect, managesieve, os
+import getpass
+import inspect
+import os
 import subprocess
-import readline
+import sys
+from netrc import netrc
 
+import managesieve
 
 sieve = None
+
 
 class SUPPRESS:
     "token for suppressing 'OK' after cmd execution"
     pass
 
 
-### the order of functions determines the order for 'help' ###
+# --- the order of functions determines the order for 'help' ---
 
 def cmd_help(cmd=None):
     """help             - this screen (shortcut '?')
 help <command>   - help on command"""
-    ## output order is the same as the sourcecode order
+    # output order is the same as the sourcecode order
     if cmd:
         if cmd in __command_map:
             cmd = __command_map[cmd]
@@ -69,13 +74,16 @@ help <command>   - help on command"""
             print(c.__doc__)
     return SUPPRESS
 
+
 def cmd_list():
     """list             - list scripts on server"""
     res, scripts = sieve.listscripts()
     if res == 'OK':
         for scriptname, active in scripts:
-            if active: print(scriptname, '\t<<-- active')
-            else: print(scriptname)
+            if active:
+                print(scriptname, '\t<<-- active')
+            else:
+                print(scriptname)
         res = SUPPRESS
     return res
 
@@ -139,16 +147,18 @@ def cmd_edit(scriptname):
         open(filename, 'w', newline='').write(scriptdata)
 
     res, scripts = sieve.listscripts()
-    if res != 'OK': return res
+    if res != 'OK':
+        return res
     for name, active in scripts:
         if name == scriptname:
             res, scriptdata = sieve.getscript(scriptname)
-            if res != 'OK': return res
+            if res != 'OK':
+                return res
             break
     else:
         if not YesNoQuestion('Script not on server. Create new?'):
             return 'OK'
-        # else: script will be created when saving        
+        # else: script will be created when saving
         scriptdata = ''
 
     import tempfile
@@ -158,12 +168,12 @@ def cmd_edit(scriptname):
     editor = os.environ.get('EDITOR', 'vi')
     while 1:
         res = subprocess.call([editor, filename])
-        if res: # error editing
+        if res:  # error editing
             if not YesNoQuestion('Editor returned failure. Continue?'):
                 os.remove(filename)
                 return SUPPRESS
             else:
-                continue # re-edit
+                continue  # re-edit
         # else: editing okay
         while 1:
             scriptdata = open(filename, newline='').read()
@@ -176,16 +186,18 @@ def cmd_edit(scriptname):
             print(res, sieve.response_text or sieve.response_code)
             if res == 'NO':
                 res = Choice('Upload failed. (E)dit/(R)etry/(A)bort?', 'era')
-                if res == 0: break # finish inner loop, return to 'edit'
-                elif res == 1: # retry upload
+                if res == 0:
+                    break  # finish inner loop, return to 'edit'
+                elif res == 1:  # retry upload
                     continue
                 SaveToFile('', scriptname, filename)
-            else: # BYE
+            else:  # BYE
                 SaveToFile('Server closed connection.', scriptname, filename)
             print('Deleting tempfile.')
             os.remove(filename)
             return SUPPRESS
     raise Exception("Should not come here.")
+
 
 if os.name != 'posix':
     del cmd_edit
@@ -194,7 +206,7 @@ if os.name != 'posix':
 def cmd_delete(scriptname):
     """delete <name>    - delete script."""
     return sieve.deletescript(scriptname)
-    
+
 
 def cmd_activate(scriptname):
     """activate <name>  - set a script as the active script"""
@@ -213,7 +225,7 @@ def cmd_quit(*args):
         try:
             # this mysteriously fails at times
             sieve.logout()
-        except:
+        except Exception:
             pass
     raise SystemExit()
 
@@ -224,7 +236,7 @@ __commands = dict([c
                    for c in inspect.getmembers(sys.modules[__name__],
                                                inspect.isfunction)
                    if c[0].startswith('cmd_')
-                  ])
+                   ])
 
 # command aliases/shortcuts
 __command_map = {
@@ -250,7 +262,8 @@ def shell(auth, user=None, passwd=None, realm=None,
                 cmd_quit()
                 break
             line = line.strip()
-            if not line: continue
+            if not line:
+                continue
             # todo: parse command line correctly
             line = line.split()
             cmd = __command_map.get(line[0], line[0])
@@ -258,7 +271,7 @@ def shell(auth, user=None, passwd=None, realm=None,
             if not cmdfunc:
                 print('Unknown command', repr(cmd))
             else:
-                if __debug__: result = None
+                if __debug__: result = None  # noqa: E701
                 try:
                     result = cmdfunc(*line[1:])
                 except TypeError as e:
@@ -268,7 +281,7 @@ def shell(auth, user=None, passwd=None, realm=None,
                         continue
                     else:
                         raise
-                assert result != None
+                assert result is not None
                 if result == 'OK':
                     print(result)
                 elif result is SUPPRESS:
@@ -320,7 +333,7 @@ def get_netrc(server):
         rc = netrc().authenticators(server)
         if rc is not None:
             return (rc[0], rc[2])
-    except:
+    except Exception:
         # if reading or parsing the file fails, ignore it
         pass
     return (None, None)
@@ -334,9 +347,9 @@ def main():
                         help="The user to use for authentication "
                              "(defaults to current user).")
     parser.add_argument('--user', dest='username',
-                        help="The authorization name to request; "
+                        help=("The authorization name to request; "
                               "by default, derived from the "
-                              "authentication credentials.")
+                              "authentication credentials."))
     parser.add_argument('--passwd',
                         help="The password to use. You can also use "
                              "the environment variable SIEVE_PASSWORD.")
@@ -351,7 +364,8 @@ def main():
                              "commands from SCRIPT, and exit when done.")
     parser.add_argument('--use-tls', '--tls', action="store_true",
                         default=True,
-                        help="Use secure transport (TLS), this is the default.")
+                        help=("Use secure transport (TLS), "
+                              "this is the default."))
     parser.add_argument('--insecure-transport', '--no-tls', dest="user_tls",
                         action="store_false",
                         help="Enforce to not use secure transport (TLS)")
@@ -366,7 +380,9 @@ def main():
     args = parser.parse_args()
 
     if args.auth_mech and not args.auth_mech.upper() in managesieve.AUTHMECHS:
-        parser.error("Authentication mechanism %s is not supported. Choose one of %s" % (args.auth_mech.upper(), ', '.join(managesieve.AUTHMECHS)))
+        parser.error(
+            "Authentication mechanism %s is not supported. Choose one of %s"
+            % (args.auth_mech.upper(), ', '.join(managesieve.AUTHMECHS)))
 
     if not (1 <= args.port <= 65535):
         parser.error("The TCP port number must be between 1 and 65535")
@@ -408,5 +424,6 @@ def main():
 
 if __name__ == "__main__":
     if __doc__ is None:
-        raise SystemExit('Must not be run with Python option -OO (removed doc-strings)')
+        raise SystemExit("Must not be run with python option '-OO' "
+                         "(removed doc-strings)")
     raise SystemExit(main())
