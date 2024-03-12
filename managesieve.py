@@ -174,7 +174,8 @@ class MANAGESIEVE:
         self.supports_tls = 0
 
     def __init__(self, host='', port=SIEVE_PORT,
-                 use_tls=False, keyfile=None, certfile=None, timeout=None):
+                 use_tls=False, keyfile=None, certfile=None, tls_verify=True,
+                 timeout=None):
         self.host = host
         self.port = port
         self.state = 'NONAUTH'
@@ -200,7 +201,8 @@ class MANAGESIEVE:
         if use_tls:
             if not self.supports_tls:
                 self.abort('TLS requested, but server does not support TLS')
-            typ, data = self.starttls(keyfile=keyfile, certfile=certfile)
+            typ, data = self.starttls(keyfile=keyfile, certfile=certfile,
+                                      verify=tls_verify)
             if typ == 'OK':
                 self._parse_capabilities(data)
 
@@ -636,7 +638,7 @@ class MANAGESIEVE:
             self._parse_capabilities(data)
         return typ, data
 
-    def starttls(self, keyfile=None, certfile=None):
+    def starttls(self, keyfile=None, certfile=None, verify=True):
         """Puts the connection to the SIEVE server into TLS mode.
 
         If the server supports TLS, this will encrypt the rest of the SIEVE
@@ -650,6 +652,9 @@ class MANAGESIEVE:
         typ, data = self._command(b'STARTTLS')
         if typ == 'OK':
             sslcontext = ssl.create_default_context()
+            if not verify:
+                sslcontext.check_hostname = False
+                sslcontext.verify_mode = ssl.CERT_NONE
             if certfile:
                 sslcontext.load_cert_chain(certfile, keyfile)
             sslobj = sslcontext.wrap_socket(
