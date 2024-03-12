@@ -39,6 +39,7 @@ __license__ = "GNU General Public License, version 3"
 import getpass
 import inspect
 import os
+import ssl
 import subprocess
 import sys
 from netrc import netrc
@@ -322,6 +323,12 @@ def shell(auth, user=None, passwd=None, realm=None,
             print(res, sieve.response_text or sieve.response_code)
             cmd_quit()
         cmd_loop()
+    except ssl.SSLCertVerificationError as ex:
+        print("Error: "
+              "Verification of the TLS certificate failed with error message",
+              file=sys.stderr)
+        print("      ", ex.verify_message, file=sys.stderr)
+        raise SystemExit(1)
     except (KeyboardInterrupt, EOFError):
         print()
         cmd_quit()
