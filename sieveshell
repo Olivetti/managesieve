@@ -249,7 +249,8 @@ __command_map = {
 
 
 def shell(auth, user=None, passwd=None, realm=None,
-          authmech='', server='', use_tls=0, port=managesieve.SIEVE_PORT):
+          authmech='', server='', use_tls=0, port=managesieve.SIEVE_PORT,
+          tls_verify=True):
     """Main part"""
 
     def cmd_loop():
@@ -302,7 +303,8 @@ def shell(auth, user=None, passwd=None, realm=None,
     assert server, "Missing server"
     try:
         print('connecting to', server, 'as user', user)
-        sieve = managesieve.MANAGESIEVE(server, port=port, use_tls=use_tls)
+        sieve = managesieve.MANAGESIEVE(server, port=port, use_tls=use_tls,
+                                        tls_verify=tls_verify)
         print('Server capabilities:', *sieve.capabilities)
         try:
             if not authmech:
@@ -366,9 +368,12 @@ def main():
                         default=True,
                         help=("Use secure transport (TLS), "
                               "this is the default."))
-    parser.add_argument('--insecure-transport', '--no-tls', dest="user_tls",
+    parser.add_argument('--insecure-transport', '--no-tls', dest="use_tls",
                         action="store_false",
                         help="Enforce to not use secure transport (TLS)")
+    parser.add_argument('--no-tls-verify', dest='tls_verify', default=True,
+                        action='store_false',
+                        help="Don't verify server certificate when using TLS")
     parser.add_argument('--port', type=int, default=managesieve.SIEVE_PORT,
                         help="The TCP port number to connect to "
                              "(default: %(default)s)")
@@ -418,7 +423,7 @@ def main():
 
     shell(args.authname, args.username, args.passwd,
           args.realm, args.auth_mech, args.server, args.use_tls,
-          args.port)
+          args.port, args.tls_verify)
     return 0
 
 
