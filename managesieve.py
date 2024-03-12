@@ -135,8 +135,8 @@ class MANAGESIEVE:
     :param port: port number (default: standard Sieve port).
     :param use_tls:  switch to TLS automatically,
                      fail if the server doesn't support STARTTLS
-    :param keyfile:  keyfile to use for TLS (optional)
-    :param certfile: certfile to use for TLS (optional)
+    :param keyfile:  keyfile to use for TLS client authentication (optional)
+    :param certfile: certfile to use for TLS client authentication (optional)
     :param timeout:  If not None, socket timeout in seconds (refer to python's
                      `socket.settimeout` for details)
     """
