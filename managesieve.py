@@ -239,10 +239,10 @@ class MANAGESIEVE:
     # ### Private methods ###
     def _open(self, host, port):
         """Setup 'self.sock'."""
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        if self.timeout is not None:
-            self.sock.settimeout(self.timeout)
-        self.sock.connect((self.host, self.port))
+        self.sock = socket.create_connection(
+            (self.host, self.port), timeout=self.timeout)
+        if __debug__:
+            self._log(INFO, 'Connected to %s', self.sock.getpeername()[0])
 
     def _close(self):
         self.sock.close()
