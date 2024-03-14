@@ -5,7 +5,7 @@
 
 All Sieve commands are supported by methods of the same name (in
 lower-case). All arguments to commands are converted to strings,
-except for :meth:`authenticate`.
+except for :code:`authenticate`.
 
 """
 
@@ -452,7 +452,7 @@ class MANAGESIEVE:
         :param str mechanism: authentication mechanism to use
         :param authobjects: authentication data for this mechanism
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-authenticate  = "AUTHENTICATE" SP auth-type [SP string]
         #                         *(CRLF string)
@@ -488,7 +488,7 @@ class MANAGESIEVE:
     def unauthenticate(self):
         """Leave the authenticated state.
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-unauthenticate     = "UNAUTHENTICATE" CRLF
         # response-unauthenticate    = response-oknobye
@@ -501,7 +501,7 @@ class MANAGESIEVE:
         """
         Authenticate to the Sieve server using the best mechanism available.
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         for authmech in AUTHMECHS:
             if authmech in self.loginmechs:
@@ -515,7 +515,7 @@ class MANAGESIEVE:
     def logout(self):
         """Terminate connection to server.
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-logout        = "LOGOUT" CRLF
         # response-logout       = response-oknobye
@@ -528,7 +528,7 @@ class MANAGESIEVE:
         """Get a list of scripts on the server.
 
         :returns: tuple(response, [data]) --
-                  if `response` is :const:`OK`, `data` is a list of
+                  if `response` is ``OK``, `data` is a list of
                   `(scriptname, active)` tuples.
         """
         # command-listscripts   = "LISTSCRIPTS" CRLF
@@ -552,7 +552,7 @@ class MANAGESIEVE:
         :param str scriptname: name of script to be retrieved
 
         :returns: tuple(response, str) --
-                  if `response` is :const:`OK`, `str` is the script content.
+                  if `response` is ``OK``, `str` is the script content.
         """
         # command-getscript     = "GETSCRIPT" SP sieve-name CRLF
         # response-getscript    = [string CRLF] response-oknobye
@@ -571,7 +571,7 @@ class MANAGESIEVE:
         :param str scriptname: name of script to be retrieved
         :param str scriptdata: script content
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-putscript     = "PUTSCRIPT" SP sieve-name SP string CRLF
         # response-putscript    = response-oknobye
@@ -585,7 +585,7 @@ class MANAGESIEVE:
 
         :param str scriptname: name of script to be deleted
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-deletescript  = "DELETESCRIPT" SP sieve-name CRLF
         # response-deletescript = response-oknobye
@@ -596,7 +596,7 @@ class MANAGESIEVE:
 
         :param str scriptname: name of script to be marked active
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-setactive     = "SETACTIVE" SP sieve-name CRLF
         # response-setactive    = response-oknobye
@@ -608,7 +608,7 @@ class MANAGESIEVE:
         :param str scriptname: name of script to XXX
         :param int size: XXX
 
-        :returns: response (:const:`OK`, :const:`NO`, :const:`BYE`)
+        :returns: response (``OK``, ``NO``, ``BYE``)
         """
         # command-havespace     = "HAVESPACE" SP sieve-name SP number CRLF
         # response-havespace    = response-oknobye
@@ -622,13 +622,13 @@ class MANAGESIEVE:
 
         As a side-effect, on success these attributes are (re)set:
 
-        - :attr:`capabilities` (list of strings)
-        - :attr:`loginmechs` (list of strings)
-        - :attr:`implementation` (string)
-        - :attr:`supports_tls` (boolean)
+        - :code:`capabilities` (list of strings)
+        - :code:`loginmechs` (list of strings)
+        - :code:`implementation` (string)
+        - :code:`supports_tls` (boolean)
 
         :returns: tuple(response, capabilities) --
-                  If `response` is :const:`OK`, `capabilities` is a list
+                  If `response` is ``OK``, `capabilities` is a list
                   of strings.
         """
         # command-capability    = "CAPABILITY" CRLF
