@@ -10,7 +10,7 @@ Donations
 
    .. centered:: Bank transfers
 
-   While PayPal_ donations are still very much appreciated PayPal takes a
+   While PayPal_ donations are still very much appreciated, PayPal takes a
    large cut and has rather questionable business practices.
 
    If you have the ability to make SEPA bank transfers at a low cost (for
@@ -46,7 +46,7 @@ Donations
   and I'll send you the account details.
   If you want a bill, please state so and also leave your name and address.
 
-* **PayPal:** |PayPalDonate|_ - 
+* **PayPal:** |PayPalDonate|_ -
   if you want a bill, please state so and leave your name, address and
   email-address.
 

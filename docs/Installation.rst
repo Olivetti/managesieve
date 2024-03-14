@@ -27,21 +27,21 @@ Instructions for Windows Users
    If the command ``pip`` is unknown to you system, please refer to the
    `pip homepage <https://pip.pypa.io/en/stable/installing/>`_ for help.
 
- 
+
 Instructions for GNU/Linux and other Operating Systems
 --------------------------------------------------------
 
-Most current GNU/Linux distributions provide packages for |managesieve|.
+Most current GNU/Linux distributions provide packages for Python.
 Simply search your distribution's software catalog.
 
-Also many vendors provide Python, and some even provide |managesieve|.
+Also many other vendors provide Python, and some even provide |managesieve|.
 Please check your vendor's software repository.
 
 If your distribution or vendor does not provide a current version of
 |managesieve| please read on.
 
 If your vendor does not provide :command:`python`
-please download Python 3.6 from https://www.python.org/download/ and
+please download Python 3.12 from https://www.python.org/download/ and
 follow the installation instructions there.
 
 If you distribution or vendor missed providing :command:`pip`,
@@ -59,7 +59,7 @@ Then continue with :ref:`installing managesieve` below.
 Installing |managesieve| using :command:`pip`
 ---------------------------------------------
 
-After installing `Python` (and optionally `PyPDF2`), just run::
+After installing `Python` just run::
 
   sudo pip install managesieve
 
