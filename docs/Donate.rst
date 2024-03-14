@@ -27,6 +27,8 @@ Donations
 
    So, if you like the software, please consider donating, especially if your
    organization benefits from this project.
+   If you need a bit, please `drop me a note
+   <mailto:htgoebel@crazy-compilers.com>`_.
 
    Thank you!
 
