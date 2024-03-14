@@ -13,7 +13,7 @@ Instructions for Windows Users
 
 2. If you already have Python installed, please check that your Python
    directory (normally :file:`C:\Python312` for Python 3.12) and the Python
-   Scripts directory (normally :file`C:\Python312\Scripts`) are in the system
+   Scripts directory (normally :file:`C:\Python312\Scripts`) are in the system
    path. If not, just add them in :menuselection:`My Computer --> Properties
    --> Advanced --> Environment Variables` to the :code:`Path` system
    variable.
@@ -25,7 +25,7 @@ Instructions for Windows Users
    Then run the console command ``sieveshell --help`` to get detailed help.
 
    If the command ``pip`` is unknown to you system, please refer to the
-   `pip homepage <https://pip.pypa.io/en/stable/installing/>`_ for help.
+   `pip installation instructions`_ for help.
 
 
 Instructions for GNU/Linux and other Operating Systems
@@ -49,10 +49,12 @@ alongside :command:`python`,
 please check your vendor's or distribution's software repository
 for a package called `pip` or `python-pip`.
 If this is not provided, please refer to the
-`pip homepage <https://pip.pypa.io/en/stable/installing/>`_ for help.
+`pip installation instructions`_ for help.
 
 Then continue with :ref:`installing managesieve` below.
 
+.. _pip installation instructions:
+       https://pip.pypa.io/en/stable/installing/
 
 .. _installing managesieve:
 

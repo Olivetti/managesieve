@@ -27,8 +27,8 @@ Donations
 
    So, if you like the software, please consider donating, especially if your
    organization benefits from this project.
-   If you need a bit, please `drop me a note
-   <mailto:htgoebel@crazy-compilers.com>`_.
+   Please `contact me`_ to arrange some kind of project grant,
+   e.g. consulting or support.
 
    Thank you!
 
@@ -44,17 +44,14 @@ Donations
 
 * **Bank-Transfer (preferred):**
   If you have the ability to make SEPA bank transfers at a low cost
-  please `contact me <mailto:htgoebel@crazy-compilers.com>`_
-  and I'll send you the account details.
+  please `contact me`_  and I'll send you the account details.
   If you want a bill, please state so and also leave your name and address.
 
 * **PayPal:** |PayPalDonate|_ -
   if you want a bill, please state so and leave your name, address and
   email-address.
 
-* Please `contact me <mailto:htgoebel@crazy-compilers.com>`_
-  to arrange some kind of project grant, e.g. consulting or support.
-
+.. _contact me: <mailto:htgoebel@crazy-compilers.com>
 
 .. |PayPalDonate| replace:: Donate
 .. _PayPalDonate: PayPal_
