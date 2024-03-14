@@ -32,7 +32,7 @@ check-isort:
   script:
     - isort --multi-line VERTICAL_GRID --check --diff .
 
-.check-doc:
+check-doc:
   extends: .check
   variables:
     DOC_DIR: docs
@@ -57,7 +57,7 @@ check-isort:
     - rstcheck --recursive ${DOC_DIR}
 
 check-doc-readme:
-  extends: .check-doc
+  extends: check-doc
   script:
     - python -m sphinxlint ${README_FILE}
     - rstcheck ${README_FILE}
