@@ -15,7 +15,7 @@ Instructions for Windows Users
    directory (normally :file:`C:\Python312` for Python 3.12) and the Python
    Scripts directory (normally :file`C:\Python312\Scripts`) are in the system
    path. If not, just add them in :menuselection:`My Computer --> Properties
-   --> Advanced --> Environment Variables` to the :envvar:`Path` system
+   --> Advanced --> Environment Variables` to the :code:`Path` system
    variable.
 
 3. Install `managesieve` by running ::
