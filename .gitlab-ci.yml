@@ -106,6 +106,7 @@ deploy-locally:
   stage: deploy
   image: python:slim
   rules:
+    # default: don't deploy
     - if: $DEPLOY_TO_GITLAB_REGISTRY =~ /^(0|no|)$/i
       when: never
     # deploy only tags
@@ -124,6 +125,7 @@ deploy-pypi:
   stage: deploy
   image: python:slim
   rules:
+    # default: don't deploy
     - if: $DEPLOY_TO_PYPI =~ /^(0|no|)$/i
       when: never
     # deploy only tags
