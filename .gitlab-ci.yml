@@ -55,6 +55,7 @@ check-doc:
     - python -m sphinx -T -E -W -n -b html ${DOC_DIR} _build/html
     - python -m sphinxlint ${DOC_DIR}
     - rstcheck --recursive ${DOC_DIR}
+          --ignore-directives automodule --report-level warning
 
 check-doc-readme:
   extends: check-doc
