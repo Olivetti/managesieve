@@ -86,4 +86,4 @@ For API details see the :ref:`Module Documentation`.
   * :ref:`search`
 
 
-.. include:: _common_definitions.txt
+.. |managesieve| replace:: `managesieve`

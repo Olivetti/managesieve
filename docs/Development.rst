@@ -23,4 +23,4 @@ Patches and pull-requests are hearty welcome.
 Then |managesieve| was hosted on gitorious.org,
 which was closed in May 2015 and merged into gitlab.
 
-.. include:: _common_definitions.txt
+.. |managesieve| replace:: managesieve

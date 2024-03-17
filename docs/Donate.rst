@@ -57,4 +57,4 @@ Donations
 .. _PayPalDonate: PayPal_
 .. _PayPal: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6L5E5LMAW56CA
 
-.. include:: _common_definitions.txt
+.. |managesieve| replace:: `managesieve`

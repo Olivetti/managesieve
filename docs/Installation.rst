@@ -81,4 +81,4 @@ respective ::
     pip install --user managesieve-*.tar.gz
 
 
-.. include:: _common_definitions.txt
+.. |managesieve| replace:: `managesieve`
