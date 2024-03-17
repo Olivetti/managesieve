@@ -81,7 +81,7 @@ test:
   before_script:
     - python -m pip install tox
   script:
-    - tox -vv -- -v --output-file junit.xml
+    - tox -e py -vv -- -v --output-file junit.xml
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   artifacts:
     reports:

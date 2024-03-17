@@ -20,6 +20,9 @@
 /options.cache
 /stamp-h1
 
+# sphinx documentation
+/_build/html
+
 # C, C++ build artefacts
 *.[oa]
 *.l[oa]
