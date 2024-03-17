@@ -30,10 +30,10 @@ __all__ = ['MANAGESIEVE', 'SIEVE_PORT', 'OK', 'NO', 'BYE',
 
 # logging levels
 INFO = logging.INFO
-DEBUG0 = DEBUG = logging.DEBUG+3  # commands and responses
-DEBUG1 = logging.DEBUG+2  # send and read data (except long literals)
-DEBUG2 = logging.DEBUG+1  # more details
-DEBUG3 = logging.DEBUG    # all debug messages (pattern matching, etc.)
+DEBUG0 = logging.DEBUG+1  # commands and responses
+DEBUG1 = DEBUG = logging.DEBUG  # send and read data (except long literals)
+DEBUG2 = logging.DEBUG-1  # more details
+DEBUG3 = logging.DEBUG-2  # all debug messages (pattern matching, etc.)
 
 CRLF = b'\r\n'
 SIEVE_PORT = 4190
