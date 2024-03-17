@@ -184,14 +184,14 @@ class MANAGESIEVE:
         self.response_text = self.response_code = None
         self.__clear_knowledge()
 
-        # Open socket to server.
-        self._open(host, port)
-
         if __debug__:
+            self._log(INFO, 'managesieve version %s', __version__)
             self._cmd_log_len = 10
             self._cmd_log_idx = 0
             self._cmd_log = {}           # Last `_cmd_log_len' interactions
-            self._log(INFO, 'managesieve version %s', __version__)
+
+        # Open socket to server.
+        self._open(host, port)
 
         # Get server welcome message,
         # request and store CAPABILITY response.
