@@ -2,15 +2,15 @@
 `managesieve`
 ===============
 
--------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 RFC-5804 Manage Sieve client library for remotely managing Sieve scripts, including an user application (the interactive 'sieveshell').
--------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 
-:Author:  Hartmut Goebel <h.goebel@crazy-compilers.com>
-:Version: 0.8
+:Author:      Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Version:     0.8
 :Copyright:   2003-2024 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
-	      GNU Public Licence v3 (GPLv3)
+              GNU Public Licence v3 (GPLv3)
 :Homepage:    https://managesieve.readthedocs.io/
 :Development: https://gitlab.com/htgoebel/managesieve
 
@@ -78,7 +78,7 @@ Not yet implemented
 Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Copyright: (C) 2003-2024 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Copyright: © 2003-2024 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 :License for `managesieve`:
    PSF-like License, see enclosed file
