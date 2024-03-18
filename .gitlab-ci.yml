@@ -36,7 +36,7 @@ check-doc:
   extends: .check
   variables:
     DOC_DIR: docs
-    README_FILE: README.txt
+    README_FILE: README.rst
   rules:
     # only run if documentation changed
     - changes:
