@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'managesieve'
-copyright = u'2003-2021 by Hartmut Goebel'
+copyright = u'2003-2024 by Hartmut Goebel'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

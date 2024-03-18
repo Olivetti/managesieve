@@ -14,7 +14,7 @@ __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """
 
-__copyright__ = ("Copyright (C) 2003-2021 by Hartmut Goebel "
+__copyright__ = ("Copyright (C) 2003-2024 by Hartmut Goebel "
                  "<h.goebel@crazy-compilers.com> and others")
 __license__ = "Python-2.0 like"
 
