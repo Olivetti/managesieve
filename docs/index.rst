@@ -27,12 +27,13 @@
    :hidden:
    :caption: Developer Documentation
 
+   Logging
    Development
    modules
 
 
 
-:Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
+:Author:  Hartmut Goebel <h.goebel@crazy-compilers.com>
 :License: `Python Software Foundation License`__ for the module,
           `GPL v3`__ for `sieveshell` and test suite.
 :Homepage: https://managesieve.readthedocs.io/
@@ -85,4 +86,4 @@ For API details see the :ref:`Module Documentation`.
   * :ref:`search`
 
 
-.. include:: _common_definitions.txt
+.. |managesieve| replace:: `managesieve`

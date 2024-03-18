@@ -2,15 +2,15 @@
 `managesieve`
 ===============
 
--------------------------------------------------------------------------------------------------------------------------------------
-A ManageSieve client library for remotely managing Sieve scripts, including an user application (the interactive 'sieveshell').
--------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+RFC-5804 Manage Sieve client library for remotely managing Sieve scripts, including an user application (the interactive 'sieveshell').
+---------------------------------------------------------------------------------------------------------------------------------------
 
-:Author:  Hartmut Goebel <h.goebel@crazy-compiler.com>
-:Version: 0.7.1
-:Copyright:   2003-2021 by Hartmut Goebel
+:Author:      Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Version:     0.8
+:Copyright:   2003-2024 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
-	      GNU Public Licence v3 (GPLv3)
+              GNU Public Licence v3 (GPLv3)
 :Homepage:    https://managesieve.readthedocs.io/
 :Development: https://gitlab.com/htgoebel/managesieve
 
@@ -27,22 +27,34 @@ there. It is accompanied by a simple yet functional user application
 'sieveshell'.
 
 
-Changes since 0.6
+Changes since 0.7
 ~~~~~~~~~~~~~~~~~~~~~
 
-* Minimum required Python version is now Python 3.6.
-
-:sieveshell:
-   - For ``get`` and ``put`` expand ``~`` and ``~user`` constructions in
-     `filename` . For ``put``, if script-name is not given, the file's
-     basename is used.
-   - Some minor clean-up.
+* Now supports Python 3.6 to 3.12.
 
 :managesieve:
-   - Fix error when constructing debug error message.
-   - Actually raise debug-only exceptions instead of jsut returning them.
-   - Fix invalid string-escape in docstring.
-   - Some minor clean-up.
+   - Add support for the UNAUTHENTICATE command.
+   - Add a socket timeout parameter.
+   - Add support for IPv6.
+   - Allow disabling certificate verification.
+   - Follow the 'Logging for a Library' guideline.
+   - BREAKING: Rearrange DEBUG logging levels to be more reasonable.
+     See `docs/Logging.rst` for details.
+
+:sieveshell:
+   - Add option '--no-tls-verify'.
+   - Improve error message if TLS certificate verification fails.
+   - Keep line-endings on file IO.
+   - Remove temporary file on successful edit, too.
+   - Fix: Pass to sieve.login() the Authorization ID
+
+:general:
+   - Add support for Python 3.12.
+   - Improve testing, add a tox.ini file and add CI/CD.
+   - Fix SPDX license identifier.
+   - Fix several typos.
+   - Lint all the code.
+   - Remove unused code.
 
 
 Requirements and Installation
@@ -50,12 +62,10 @@ Requirements and Installation
 
 `managesieve` requires
 
-* `Python`__  (tested 2.7 and 3.4—3.6, but newer versions should work,
-  too), and
-* `setuptools`__ or `pip`__ for installation.
+* `Python`__ 3.6—3.12 and
+* `pip`__ for installation.
 
 __ https://www.python.org/download/
-__ https://pypi.org/project/setuptools
 __ https://pypi.org/project/pip
 
 
@@ -68,7 +78,7 @@ Not yet implemented
 Copyright and License
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Copyright: (C) 2003-2021 by Hartmut Goebel <h.goebel@crazy-compilers.com>
+:Copyright: © 2003-2024 by Hartmut Goebel <h.goebel@crazy-compilers.com>
 
 :License for `managesieve`:
    PSF-like License, see enclosed file
