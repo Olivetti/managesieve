@@ -9,12 +9,12 @@ except for :code:`authenticate`.
 
 """
 
-__version__ = "0.8.dev0"
+__version__ = "0.9.dev0"
 __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """
 
-__copyright__ = ("Copyright (C) 2003-2021 by Hartmut Goebel "
+__copyright__ = ("Copyright (C) 2003-2024 by Hartmut Goebel "
                  "<h.goebel@crazy-compilers.com> and others")
 __license__ = "Python-2.0 like"
 
@@ -135,8 +135,8 @@ class MANAGESIEVE:
     :param port: port number (default: standard Sieve port).
     :param use_tls:  switch to TLS automatically,
                      fail if the server doesn't support STARTTLS
-    :param keyfile:  keyfile to use for TLS (optional)
-    :param certfile: certfile to use for TLS (optional)
+    :param keyfile:  keyfile to use for TLS client authentication (optional)
+    :param certfile: certfile to use for TLS client authentication (optional)
     :param timeout:  If not None, socket timeout in seconds (refer to python's
                      `socket.settimeout` for details)
     """

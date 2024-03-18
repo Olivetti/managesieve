@@ -1,7 +1,38 @@
-0.8 (unreleased)
+0.9 (unreleased)
 ----------------
 
 - Nothing changed yet.
+
+
+0.8 (2024-03-18)
+----------------
+
+Author: Hartmut Goebel.
+Thanks to Thomas Erbesdobler, Дилян Палаузов and Andrew Imeson.
+
+:managesieve:
+   - Add support for the UNAUTHENTICATE command.
+   - Add a socket timeout parameter.
+   - Add support for IPv6.
+   - Allow disabling certificate verification.
+   - Follow the 'Logging for a Library' guideline.
+   - BREAKING: Rearrange DEBUG logging levels to be more reasonable.
+     See :doc:`Logging` for details.
+
+:sieveshell:
+   - Add option '--no-tls-verify'.
+   - Improve error message if TLS certificate verification fails.
+   - Keep line-endings on file IO.
+   - Remove temporary file on successful edit, too.
+   - Fix: Pass to sieve.login() the Authorization ID
+
+:general:
+   - Add support for Python 3.12.
+   - Improve testing, add a tox.ini file and add CI/CD.
+   - Fix SPDX license identifier.
+   - Fix several typos.
+   - Lint all the code.
+   - Remove unused code.
 
 
 0.7.1 (2021-03-11)
