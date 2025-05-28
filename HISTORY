@@ -1,7 +1,8 @@
 0.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
+:general:
+   - Add support for Python 3.13.
 
 
 0.8 (2024-03-18)

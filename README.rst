@@ -30,7 +30,7 @@ there. It is accompanied by a simple yet functional user application
 Changes since 0.7
 ~~~~~~~~~~~~~~~~~~~~~
 
-* Now supports Python 3.6 to 3.12.
+* Now supports Python 3.6 to 3.13.
 
 :managesieve:
    - Add support for the UNAUTHENTICATE command.
