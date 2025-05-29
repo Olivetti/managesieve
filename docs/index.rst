@@ -40,8 +40,8 @@
 :Download: https://pypi.org/project/managesieve
 :Development: https://gitlab.com/htgoebel/managesieve
 
-__ http://www.opensource.org/licenses/PythonSoftFoundation.html
-__ http://opensource.org/licenses/GPL-3.0
+__ https://opensource.org/license/python-2-0
+__ https://opensource.org/license/GPL-3.0
 
 
 What is the `sieveshell`?

@@ -30,7 +30,7 @@ The following commands are recognized:
   quit             - quit
 """
 
-__version__ = "0.8"
+__version__ = "0.8.1"
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
 __copyright__ = ("Copyright (C) 2003-2024 by Hartmut Goebel "
                  "<h.goebel@crazy-compilers.com>")
