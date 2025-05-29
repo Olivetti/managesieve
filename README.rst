@@ -7,7 +7,7 @@ RFC-5804 Manage Sieve client library for remotely managing Sieve scripts, includ
 ---------------------------------------------------------------------------------------------------------------------------------------
 
 :Author:      Hartmut Goebel <h.goebel@crazy-compilers.com>
-:Version:     0.9.dev0
+:Version:     0.8.1
 :Copyright:   2003-2024 by Hartmut Goebel
 :Licence:     Python Software Foundation License and
               GNU Public Licence v3 (GPLv3)
