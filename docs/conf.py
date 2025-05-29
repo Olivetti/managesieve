@@ -65,7 +65,7 @@ master_doc = 'index'
 info = get_info()
 # General information about the project.
 project = f'managesieve {info["release"]}'
-copyright = u'2003-2024 by Hartmut Goebel'
+copyright = u'2003-%Y by Hartmut Goebel'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
