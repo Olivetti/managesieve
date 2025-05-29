@@ -9,7 +9,7 @@ except for :code:`authenticate`.
 
 """
 
-__version__ = "0.8.1"
+__version__ = "0.9.dev0"
 __author__ = """Hartmut Goebel <h.goebel@crazy-compilers.com>
 Ulrich Eck <ueck@net-labs.de> April 2001
 """
