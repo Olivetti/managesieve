@@ -64,7 +64,7 @@ master_doc = 'index'
 
 info = get_info()
 # General information about the project.
-project = u'managesieve'
+project = f'managesieve {info["release"]}'
 copyright = u'2003-2024 by Hartmut Goebel'
 
 # The version info for the project you're documenting, acts as replacement for
