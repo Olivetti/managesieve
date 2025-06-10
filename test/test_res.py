@@ -5,7 +5,7 @@ Unit test patterns in for managesieve.py
 """
 
 __author__ = "Hartmut Goebel <h.goebel@crazy-compilers.com>"
-__copyright__ = "(c) Copyright 2003-2021 by Hartmut Goebel"
+__copyright__ = "(c) Copyright 2003-2024 by Hartmut Goebel"
 __license__ = "GNU General Public License, version 3"
 
 import pytest
@@ -25,5 +25,5 @@ ids = [p[0] for p in parameters]
 def test_Oknobye_pattern(string, expected):
     mo = Oknobye.match(string)
     assert mo.group('type', 'code', 'data') == expected
-    expected = dict(zip(('type', 'code','data'), expected))
+    expected = dict(zip(('type', 'code', 'data'), expected))
     assert mo.groupdict() == expected
